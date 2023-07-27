@@ -1,5 +1,100 @@
 <template>
-    <div>landing page
-     
-</div>
+    <div class="global-container w-full">
+        <nav class="flex px-4 py-6 justify-around">
+            <NuxtLink><v-btn variant="plain">How it works</v-btn></NuxtLink>
+            <NuxtLink><v-btn variant="plain">start now</v-btn></NuxtLink>
+            <NuxtLink><v-btn variant="plain">support</v-btn>
+            </NuxtLink>
+        </nav>
+        <main class="flex gap-20 align-center justify-center">
+            <div class="main-left">
+                <img src="boys.png" alt="a picture of happy kids">
+            </div>
+            <div class="main-right ">
+                <div class="content-cont">
+                    <h1>Create fun
+                        fair games</h1>
+                    <p>generate an interactive / fun dashboard for your competitions and keep everyone engaged </p>
+                    <v-btn class="text-white italic rounded-xl" color="#FF866B">start now</v-btn>
+                </div>
+            </div>
+        </main>
+    </div>
 </template>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap');
+
+.global-container {
+    background: linear-gradient(180deg, #FCE700 0%, #FCE700 34.33%, #00EBFF 100%);
+}
+
+nav {
+    background: #FFF9B8;
+    filter: drop-shadow(0px 6px 10px rgba(0, 0, 0, 0.25));
+    height: 5.25rem;
+}
+
+nav>a>.v-btn {
+    font-family: Inter;
+    font-size: 1.4rem;
+    font-style: italic;
+    font-weight: 700;
+}
+
+nav>a>.v-btn:hover {
+    border-bottom: dashed 2px black;
+}
+
+main {
+    max-height: calc(100vh - 5.25rem);
+}
+
+.main-left {
+    display: inline-block;
+    height: calc(100vh - 5.25rem);
+}
+
+img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.main-right {
+    background: url(/_nuxt/bubble.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 500px;
+    width: 500px;
+    text-align: center;
+    background-position: center;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.main-right>div>h1 {
+    font-family: Bubblegum Sans;
+    font-size: 3rem;
+    color: #FF3636;
+    font-weight: 400;
+}
+
+.main-right>.content-cont {
+    padding-inline: 20%;
+    display: flex;
+    flex-direction: column;
+    padding-block: 4rem;
+    gap: 2rem;
+}
+
+.main-right>.content-cont>p {
+    font-weight: 400;
+    line-height: 1.25rem;
+    color: #210000;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgba(30, 0, 0, 0.5);
+}
+</style>
