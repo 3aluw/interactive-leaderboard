@@ -11,11 +11,11 @@
                 <img src="boys.png" alt="a picture of happy kids">
             </div>
             <div class="main-right ">
-                <div class="content-cont">
+                <div class="content-cont items-center">
                     <h1>Create fun
                         fair games</h1>
                     <p>generate an interactive / fun dashboard for your competitions and keep everyone engaged </p>
-                    <v-btn class="text-white italic rounded-xl" color="#FF866B">start now</v-btn>
+                    <v-btn class="text-white italic rounded-xl" color="#FF2525" variant="flat">start now</v-btn>
                 </div>
             </div>
         </main>
@@ -64,30 +64,34 @@ img {
     background: url(/_nuxt/bubble.svg);
     background-repeat: no-repeat;
     background-size: contain;
-    height: 500px;
-    width: 500px;
+    min-height: 500px;
+    max-width: 500px;
     text-align: center;
     background-position: center;
-
+    justify-content: center;
     display: flex;
     flex-direction: column;
 }
 
 
 
-.main-right>div>h1 {
-    font-family: Bubblegum Sans;
-    font-size: 3rem;
-    color: #FF3636;
-    font-weight: 400;
-}
+
 
 .main-right>.content-cont {
     padding-inline: 20%;
     display: flex;
     flex-direction: column;
-    padding-block: 4rem;
     gap: 2rem;
+}
+
+.main-right>div>h1 {
+    font-family: Bubblegum Sans;
+    font-size: 4.5rem;
+    color: #FF3636;
+    font-weight: 600;
+    line-height: normal;
+    padding-bottom: 1rem;
+
 }
 
 .main-right>.content-cont>p {
@@ -96,5 +100,14 @@ img {
     color: #210000;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: rgba(30, 0, 0, 0.5);
+}
+
+.main-right>.content-cont>.v-btn {
+    max-width: 8rem;
+}
+
+.main-right>.content-cont>.v-btn:hover {
+    opacity: 0.9;
+    border: 1px black solid;
 }
 </style>
