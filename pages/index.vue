@@ -2,7 +2,7 @@
     <div class="global-container w-full">
         <nav class="flex px-4 py-6 justify-around">
             <NuxtLink><v-btn variant="plain">How it works</v-btn></NuxtLink>
-            <NuxtLink><v-btn variant="plain">start now</v-btn></NuxtLink>
+            <v-btn variant="plain">start now</v-btn>
             <NuxtLink><v-btn variant="plain">support</v-btn>
             </NuxtLink>
         </nav>
@@ -20,6 +20,7 @@
             </div>
         </main>
     </div>
+    <GameSettings />
 </template>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap');
