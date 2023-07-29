@@ -21,17 +21,29 @@
                     <v-col cols="6"><v-text-field label="number of participants" type="number"
                             variant="outlined"></v-text-field>
                     </v-col>
-                    <v-col cols="12"> <v-slider :max="500" :min="10" thumb-label :step="5" label="win at"
-                            hide-details></v-slider></v-col>
+                    <v-col cols="12 flex flex-inline gap-1 items-center">
+
+                        <p>win at</p> <v-tooltip text="points required for a participant to win 🎉" location="bottom">
+                            <template v-slot:activator="{ props }"><v-icon v-bind="props" size="x-small"
+                                    icon="mdi-information-outline"></v-icon></template></v-tooltip> :<v-slider class="ml-8"
+                            :max="500" :min="10" thumb-label :step="5" hide-details></v-slider>
+                    </v-col>
                 </v-row>
                 <v-row>
-                    buttons:
+                    <p>buttons <v-tooltip text="add buttons to use latter to increase or decrease points for participants"
+                            location="bottom">
+                            <template v-slot:activator="{ props }"><v-icon v-bind="props" size="x-small"
+                                    icon="mdi-information-outline"></v-icon></template></v-tooltip> : </p>
                     <v-col cols="1"><v-text-field class="entry-btn font-mono " hide-details></v-text-field></v-col>
                 </v-row>
 
                 <v-row class="mb-10">
-                    <v-col cols="6"><v-select label="Avatars" :items="['ON, OFF']" variant="outlined"></v-select></v-col>
-                    <v-col cols="6"><v-select label="sounds" :items="['ON, OFF']" variant="outlined"></v-select></v-col>
+                    <v-col cols="6"> <v-tooltip activator="parent" location="top">the app will generate an avatar for every
+                            participant</v-tooltip><v-select label="Avatars" :items="['ON', 'OFF']" variant="outlined">
+                        </v-select></v-col>
+                    <v-col cols="6"> <v-tooltip activator="parent" location="top">the app will make funny sounds during the
+                            game 😃</v-tooltip><v-select label="sounds" :items="['ON', 'OFF']"
+                            variant="outlined"></v-select></v-col>
                 </v-row>
 
 
