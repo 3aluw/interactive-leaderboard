@@ -1,11 +1,12 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
-import{gameSettings, team} from 'store/interfaces'
+import{IGameSettings,
+  ITeam} from 'store/interfaces'
 
 export const useGameStore = defineStore("GameStore", () => {
   
 
-let currentGameSettings : gameSettings
-let teams : team[]
+let currentGameSettings : IGameSettings
+let teams : ITeam[]
 
 
 

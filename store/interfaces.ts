@@ -1,19 +1,20 @@
-interface gameSettings {
-    gameType : "turn-based" | 'real-time',
+interface IGameSettings {
+    gameType : "turn-based" | 'real-time' | '',
     initialPoints :number ,
+    participantsNumber: number,
     winAt : number,
     plusButtons : number[],
     minusButtons : number[],
-    sounds: boolean,
-    avatars : boolean,
+    sounds?: boolean,
+    avatars?: boolean,
   }
-interface team {
+interface ITeam {
   name : string,
   points: number,
   history: string[],
   avatar? : string
 }
 
-export{gameSettings,
-    team
+export{IGameSettings,
+  ITeam
 }

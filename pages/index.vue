@@ -15,13 +15,41 @@
                     <h1>Create fun
                         fair games</h1>
                     <p>generate an interactive / fun dashboard for your competitions and keep everyone engaged </p>
-                    <v-btn class="text-white italic rounded-xl" color="#FF2525" variant="flat">start now</v-btn>
+
+                    <v-dialog v-model="dialog" width="auto">
+                        <template v-slot:activator="{ props }">
+                            <div class="flex justify-center max-[600px]:!hidden"> <v-btn
+                                    class="text-white italic rounded-xl" color="#FF2525" variant="flat" v-bind="props">start
+                                    now</v-btn>
+                            </div>
+                        </template>
+                        <v-card>
+                            <GameSettings />
+
+
+                            <div class="flex justify-center gap-4 dialog-nav-btns mb-2 ">
+                                <v-btn prepend-icon="mdi:mdi-arrow-left" variant="outlined" color="balck"
+                                    :disabled="step == 1" @click="step -= 1">BACK</v-btn>
+                                <v-btn append-icon="$next" variant="outlined" color="balck" v-if="step === 1"
+                                    @click="step += 1">NEXT</v-btn>
+                                <v-btn append-icon="$next" variant="flat" color="green-darken-2"
+                                    v-if="step == 2">Finnish</v-btn>
+
+                            </div>
+
+                        </v-card>
+                    </v-dialog>
+
                 </div>
             </div>
         </main>
     </div>
-    <GameSettings />
 </template>
+<script setup lang="ts">
+const dialog: Ref<boolean> = ref(false)
+const step: Ref<number> = ref(1)
+
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap');
 
@@ -110,5 +138,9 @@ img {
 .main-right>.content-cont>.v-btn:hover {
     opacity: 0.9;
     border: 1px black solid;
+}
+
+.dialog-nav-btns {
+    background: #FFF9B8;
 }
 </style>
