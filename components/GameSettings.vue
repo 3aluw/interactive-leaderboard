@@ -40,17 +40,21 @@
                             <template v-slot:activator="{ props }"><v-icon v-bind="props" size="x-small"
                                     icon="mdi-information-outline"></v-icon></template></v-tooltip> : </p>
 
-                    <v-col cols="3" sm='1' v-for="btn in  gameSttings.plusButtons ">
-                        <v-hover v-slot="{ isHovering, props }"><v-btn v-bind="props"
-                                :class="{ '!bg-red-500': isHovering }">
-                                <p v-if="!isHovering">{{ btn
-                                }} </p><v-icon v-if="isHovering"
+                    <v-col cols="3" sm='1' v-for="(btn, index) in  gameSttings.buttons ">
+                        <v-hover v-slot="{ isHovering, props }"><v-btn v-bind="props" @click="deleteButton(index)"
+                                :class="{ '!bg-red-500': isHovering && gameSttings.buttons.length > 1 }">
+                                <p v-if="!isHovering || gameSttings.buttons.length === 1">{{ btn
+                                }} </p><v-icon v-if="isHovering && gameSttings.buttons.length > 1"
                                     class="d-flex transition-fast-in-fast-out v-card--reveal " icon="
                                     mdi-close-circle-outline" color="white" size="large"></v-icon>
                             </v-btn> </v-hover></v-col>
-                    <v-col cols="3" sm="1"> <v-text-field type="number" density="compact" placeholder='...'
-                            class="entry-btn font-mono " hide-details></v-text-field></v-col>
+                    <v-col cols="3" sm="1"> <v-text-field v-model.number="newButton" @keyup.enter="addButton"
+                            v-if="gameSttings.buttons.length < 5" :rules="newButtonRules" type="number" density="compact"
+                            placeholder='...' class="entry-btn font-mono " hide-details></v-text-field>
+                        <p class="absolute pl-1 text-red-500 text-xs">{{ newButtonValidation }} </p>
+                    </v-col>
                 </v-row>
+
 
                 <v-row class="mb-10">
                     <v-col cols="6"> <v-tooltip activator="parent" location="top">the app will generate an avatar for every
@@ -76,6 +80,8 @@
 import { useGameStore } from '@/store/GameStore'
 import { IGameSettings } from 'store/interfaces'
 const GameStore = useGameStore()
+const emit = defineEmits(['formValidation'])
+
 
 const onOffToBoolean = ref([
     { title: "on", value: true, },
@@ -88,11 +94,19 @@ const gameSttings: Ref<IGameSettings> = ref({
     initialPoints: 0,
     participantsNumber: 3,
     winAt: 10,
-    plusButtons: [2, 5],
-    minusButtons: [2, 5],
+    buttons: [2, 5],
 })
 
-const isFormValid = ref()
+const newButton = ref();
+const newButtonValidation = ref()
+console.log(newButtonValidation.value)
+const addButton = () => {
+    if (Number.isInteger(newButton.value) && newButtonRules[0](newButton.value) === true) gameSttings.value.buttons.push(newButton.value)
+}
+
+const deleteButton = (index: number) => {
+    if (gameSttings.value.buttons.length > 1) gameSttings.value.buttons.splice(index, 1)
+}
 
 // emit and update planInfos
 /*
@@ -106,7 +120,10 @@ const planInfos = computed({
 }
 )
 */
-
+const isFormValid = ref()
+watch(isFormValid, () => {
+    emit('formValidation', isFormValid.value)
+})
 const pointsRules = [
     (value: number) => {
         if (Number.isInteger(value)) return true
@@ -119,7 +136,14 @@ const requiedRule = [
         if (value) return true
 
         return 'This field is required'
-
+    }
+]
+const newButtonRules = [
+    (value: number) => {
+        if (gameSttings.value.buttons.includes(value)) { newButtonValidation.value = 'duplicate'; return false }
+        if (value > (gameSttings.value.winAt / 2)) { newButtonValidation.value = 'large number'; return false }
+        newButtonValidation.value = ''
+        return true
     }
 ]
 /*form rules *//*

@@ -3,8 +3,8 @@ interface IGameSettings {
     initialPoints :number ,
     participantsNumber: number,
     winAt : number,
-    plusButtons : number[],
-    minusButtons : number[],
+    buttons : number[],
+  
     sounds?: boolean,
     avatars?: boolean,
   }

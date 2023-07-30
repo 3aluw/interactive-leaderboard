@@ -24,14 +24,15 @@
                             </div>
                         </template>
                         <v-card>
-                            <GameSettings />
+                            <GameSettings v-if="showGameSettings"
+                                @form-validation="(value) => isGameSettingFormValid = value" />
 
 
                             <div class="flex justify-center gap-4 dialog-nav-btns mb-2 ">
                                 <v-btn prepend-icon="mdi:mdi-arrow-left" variant="outlined" color="balck"
                                     :disabled="step == 1" @click="step -= 1">BACK</v-btn>
                                 <v-btn append-icon="$next" variant="outlined" color="balck" v-if="step === 1"
-                                    @click="step += 1">NEXT</v-btn>
+                                    @click="step += 1" :disabled="isGameSettingFormValid !== true">NEXT</v-btn>
                                 <v-btn append-icon="$next" variant="flat" color="green-darken-2"
                                     v-if="step == 2">Finnish</v-btn>
 
@@ -46,7 +47,11 @@
     </div>
 </template>
 <script setup lang="ts">
+//show components
 const dialog: Ref<boolean> = ref(false)
+const showGameSettings = ref(true)
+const isGameSettingFormValid = ref()
+
 const step: Ref<number> = ref(1)
 
 </script>
@@ -133,6 +138,10 @@ img {
 
 .main-right>.content-cont>.v-btn {
     max-width: 8rem;
+}
+
+.v-btn--disabled {
+    opacity: 0.5;
 }
 
 .main-right>.content-cont>.v-btn:hover {
