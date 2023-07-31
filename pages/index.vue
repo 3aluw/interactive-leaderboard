@@ -44,6 +44,7 @@
                 </div>
             </div>
         </main>
+        <TeamsConfig />
     </div>
 </template>
 <script setup lang="ts">

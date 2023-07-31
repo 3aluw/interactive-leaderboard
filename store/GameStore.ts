@@ -5,15 +5,23 @@ import{IGameSettings,
 export const useGameStore = defineStore("GameStore", () => {
   
 
-let currentGameSettings : IGameSettings
-let teams : ITeam[]
+
+const gameSettings: Ref<IGameSettings> = ref({
+  gameType: '',
+  initialPoints: 0,
+  participantsNumber: 3,
+  winAt: 10,
+  buttons: [2, 5],
+})
+
+let teams : Ref<ITeam[]> =ref([]) 
 
 
 
 
 
   return {
-   
+    gameSettings, teams
   };
 },
 /* Enable this to persist this store : more info : https://prazdevs.github.io/pinia-plugin-persistedstate/frameworks/nuxt-3.html
