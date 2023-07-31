@@ -19,6 +19,8 @@
     "nuxt": "^3.3.2"
   },
   "dependencies": {
+    "@dicebear/collection": "^6.0.4",
+    "@dicebear/core": "^6.0.4",
     "@mdi/font": "^7.1.96",
     "@pinia/nuxt": "^0.4.7",
     "pinia": "^2.0.33",
