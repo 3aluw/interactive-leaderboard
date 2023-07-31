@@ -7,20 +7,20 @@
                     <v-col cols="12" md="4">
                         Game type:
                     </v-col>
-                    <v-radio-group v-model="gameSttings.gameType" inline :rules="requiedRule">
+                    <v-radio-group v-model="gameStore.gameSettings.gameType" inline :rules="requiedRule">
                         <v-col cols="12" md="6">
                             <v-radio label="turn-based" value="turn-based"></v-radio></v-col>
                         <v-col cols="12" md="6"> <v-radio label="real-time" value="real-time"
-                                v-model="gameSttings.gameType"></v-radio></v-col>
+                                v-model="gameStore.gameSettings.gameType"></v-radio></v-col>
                     </v-radio-group>
                 </v-row>
 
 
                 <v-row>
-                    <v-col cols="6"><v-text-field v-model.number="gameSttings.initialPoints" label="initial points"
-                            type="number" variant="outlined" hide-spin-buttons placeholder="each team will start with...pts"
-                            :rules="pointsRules"></v-text-field></v-col>
-                    <v-col cols="6"><v-text-field v-model.number="gameSttings.participantsNumber"
+                    <v-col cols="6"><v-text-field v-model.number="gameStore.gameSettings.initialPoints"
+                            label="initial points" type="number" variant="outlined" hide-spin-buttons
+                            placeholder="each team will start with...pts" :rules="pointsRules"></v-text-field></v-col>
+                    <v-col cols="6"><v-text-field v-model.number="gameStore.gameSettings.participantsNumber"
                             label="number of participants" type="number" variant="outlined"
                             :rules="pointsRules"></v-text-field>
                     </v-col>
@@ -29,7 +29,7 @@
                         <p>win at</p> <v-tooltip text="points required for a participant to win 🎉" location="bottom">
                             <template v-slot:activator="{ props }"><v-icon v-bind="props" size="x-small"
                                     icon="mdi-information-outline"></v-icon></template></v-tooltip> :<v-slider
-                            v-model="gameSttings.winAt" class="ml-8" :max="500" :min="10" thumb-label :step="5"
+                            v-model="gameStore.gameSettings.winAt" class="ml-8" :max="500" :min="10" thumb-label :step="5"
                             hide-details></v-slider>
                     </v-col>
                 </v-row>
@@ -40,17 +40,17 @@
                             <template v-slot:activator="{ props }"><v-icon v-bind="props" size="x-small"
                                     icon="mdi-information-outline"></v-icon></template></v-tooltip> : </p>
 
-                    <v-col cols="3" sm='1' v-for="(btn, index) in  gameSttings.buttons ">
+                    <v-col cols="3" sm='1' v-for="(btn, index) in  gameStore.gameSettings.buttons ">
                         <v-hover v-slot="{ isHovering, props }"><v-btn v-bind="props" @click="deleteButton(index)"
-                                :class="{ '!bg-red-500': isHovering && gameSttings.buttons.length > 1 }">
-                                <p v-if="!isHovering || gameSttings.buttons.length === 1">{{ btn
-                                }} </p><v-icon v-if="isHovering && gameSttings.buttons.length > 1"
+                                :class="{ '!bg-red-500': isHovering && gameStore.gameSettings.buttons.length > 1 }">
+                                <p v-if="!isHovering || gameStore.gameSettings.buttons.length === 1">{{ btn
+                                }} </p><v-icon v-if="isHovering && gameStore.gameSettings.buttons.length > 1"
                                     class="d-flex transition-fast-in-fast-out v-card--reveal " icon="
                                     mdi-close-circle-outline" color="white" size="large"></v-icon>
                             </v-btn> </v-hover></v-col>
                     <v-col cols="3" sm="1"> <v-text-field v-model.number="newButton" @keyup.enter="addButton"
-                            v-if="gameSttings.buttons.length < 5" :rules="newButtonRules" type="number" density="compact"
-                            placeholder='...' class="entry-btn font-mono " hide-details></v-text-field>
+                            v-if="gameStore.gameSettings.buttons.length < 5" :rules="newButtonRules" type="number"
+                            density="compact" placeholder='...' class="entry-btn font-mono " hide-details></v-text-field>
                         <p class="absolute pl-1 text-red-500 text-xs">{{ newButtonValidation }} </p>
                     </v-col>
                 </v-row>
@@ -59,14 +59,14 @@
                 <v-row class="mb-10">
                     <v-col cols="6"> <v-tooltip activator="parent" location="top">the app will generate an avatar for every
                             participant</v-tooltip><v-select :rules="requiedRule" label="Avatars"
-                            v-model="gameSttings.avatars" :items="onOffToBoolean" item-title="title" item-value="value"
-                            variant="outlined">
+                            v-model="gameStore.gameSettings.avatars" :items="onOffToBoolean" item-title="title"
+                            item-value="value" variant="outlined">
                         </v-select></v-col>
 
                     <v-col cols="6"> <v-tooltip activator="parent" location="top">the app will make funny sounds during the
-                            game 😃</v-tooltip><v-select :rules="requiedRule" label="sounds" v-model="gameSttings.sounds"
-                            :items="onOffToBoolean" item-title="title" item-value="value"
-                            variant="outlined"></v-select></v-col>
+                            game 😃</v-tooltip><v-select :rules="requiedRule" label="sounds"
+                            v-model="gameStore.gameSettings.sounds" :items="onOffToBoolean" item-title="title"
+                            item-value="value" variant="outlined"></v-select></v-col>
                 </v-row>
 
 
@@ -79,7 +79,7 @@
 <script setup lang="ts">
 import { useGameStore } from '@/store/GameStore'
 import { IGameSettings } from 'store/interfaces'
-const GameStore = useGameStore()
+const gameStore = useGameStore()
 const emit = defineEmits(['formValidation'])
 
 
@@ -99,27 +99,16 @@ const gameSttings: Ref<IGameSettings> = ref({
 
 const newButton = ref();
 const newButtonValidation = ref()
-console.log(newButtonValidation.value)
+
 const addButton = () => {
-    if (Number.isInteger(newButton.value) && newButtonRules[0](newButton.value) === true) gameSttings.value.buttons.push(newButton.value)
+    if (Number.isInteger(newButton.value) && newButtonRules[0](newButton.value) === true) gameStore.gameSettings.buttons.push(newButton.value)
 }
 
 const deleteButton = (index: number) => {
-    if (gameSttings.value.buttons.length > 1) gameSttings.value.buttons.splice(index, 1)
+    if (gameStore.gameSettings.buttons.length > 1) gameStore.gameSettings.buttons.splice(index, 1)
 }
 
-// emit and update planInfos
-/*
-const props = defineProps({
-    modelValue: Object,
-})
-const emit = defineEmits(['update:modelValue'])
-const planInfos = computed({
-    get() { return props.modelValue },
-    set(newValue) { emit("update:modelValue", newValue) }
-}
-)
-*/
+
 const isFormValid = ref()
 watch(isFormValid, () => {
     emit('formValidation', isFormValid.value)
@@ -132,46 +121,21 @@ const pointsRules = [
     }
 ]
 const requiedRule = [
-    (value: string) => {
-        if (value) return true
+    (value: boolean) => {
+
+        if (typeof value === 'boolean') return true
 
         return 'This field is required'
     }
 ]
 const newButtonRules = [
     (value: number) => {
-        if (gameSttings.value.buttons.includes(value)) { newButtonValidation.value = 'duplicate'; return false }
-        if (value > (gameSttings.value.winAt / 2)) { newButtonValidation.value = 'large number'; return false }
+        if (gameStore.gameSettings.buttons.includes(value)) { newButtonValidation.value = 'duplicate'; return false }
+        if (value > (gameStore.gameSettings.winAt / 2)) { newButtonValidation.value = 'large number'; return false }
         newButtonValidation.value = ''
         return true
     }
 ]
-/*form rules *//*
-const reqiuiredRule = [
-    value => {
-        if (value) return true
-
-        return 'This field is required'
-    }]
-const checkTypeRule = [
-    () => {
-        return planInfos.value.seatType ? true : "Chose a type"
-    }
-]
-
-const nameRule = [
-    value => {
-        if (value) return true
-
-        return 'Name is requred.'
-    },
-    value => {
-        if (value?.length <= 10) return true
-
-        return 'Name must be less than 10 characters.'
-    },
-]
-*/
 </script>
 <style scoped>
 .v-sheet {
