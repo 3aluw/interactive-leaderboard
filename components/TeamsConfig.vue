@@ -19,10 +19,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td> color</td>
+                <tr v-for="team in gameStore.teams">
+                    <td>
+                        <div class="rounded-full h-10 w-10 " :style="{ backgroundColor: team.color }">
+                        </div>
+                    </td>
                     <td>avatar</td>
-                    <td> <v-text-field></v-text-field></td>
+                    <td> <v-text-field v-model="team.name"></v-text-field></td>
                     <td> <v-btn>generate a name</v-btn></td>
                 </tr>
             </tbody>
@@ -37,10 +40,11 @@ import { useGameStore } from '@/store/GameStore'
 import { ITeam } from 'store/interfaces'
 const gameStore = useGameStore()
 
+
 const generateATeam = (): ITeam => {
     let newTeam: ITeam = {
         name: '',
-        color: '#FFF',
+        color: colorGenerator(),
         points: gameStore.gameSettings.initialPoints,
         history: [],
     }
@@ -48,12 +52,6 @@ const generateATeam = (): ITeam => {
 }
 
 const fixTeamsArrayLength = () => {
-    let newTeam: ITeam = {
-        name: '',
-        color: '#FFF',
-        points: gameStore.gameSettings.initialPoints,
-        history: [],
-    }
     //do we need to addteams of delete teams
     let numberOfParticipants = gameStore.gameSettings.participantsNumber
     let registredTeams = gameStore.teams.length
@@ -62,7 +60,7 @@ const fixTeamsArrayLength = () => {
     if (neededNewTeams >= 0) {
         let i = 1;
         while (i <= neededNewTeams) {
-            gameStore.teams.push(newTeam)
+            gameStore.teams.push(generateATeam())
             i++
         }
     }
