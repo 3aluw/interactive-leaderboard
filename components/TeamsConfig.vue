@@ -37,8 +37,17 @@ import { useGameStore } from '@/store/GameStore'
 import { ITeam } from 'store/interfaces'
 const gameStore = useGameStore()
 
-const generateTeams = () => {
+const generateATeam = (): ITeam => {
+    let newTeam: ITeam = {
+        name: '',
+        color: '#FFF',
+        points: gameStore.gameSettings.initialPoints,
+        history: [],
+    }
+    return newTeam
+}
 
+const fixTeamsArrayLength = () => {
     let newTeam: ITeam = {
         name: '',
         color: '#FFF',
@@ -49,19 +58,28 @@ const generateTeams = () => {
     let numberOfParticipants = gameStore.gameSettings.participantsNumber
     let registredTeams = gameStore.teams.length
     let neededNewTeams = numberOfParticipants - registredTeams
-    //number of registred teams is less than participants number
+    //number of registred teams is less than participants number (we need to add new teams)
     if (neededNewTeams >= 0) {
         let i = 1;
-        while (i < neededNewTeams) {
-            gameStore.teams.push()
+        while (i <= neededNewTeams) {
+            gameStore.teams.push(newTeam)
             i++
         }
-    } else {
+    }
+    //number of registred teams is more than participants number (we need to delete teams)
+    else {
         gameStore.teams.splice(neededNewTeams, -neededNewTeams)
     }
 
-
 }
+
+const fixInitailPoints = () => {
+    gameStore.teams.forEach((team) => team.points = gameStore.gameSettings.initialPoints)
+}
+
+onMounted(() => {
+    fixTeamsArrayLength()
+})
 </script>
 
 <style scoped>
