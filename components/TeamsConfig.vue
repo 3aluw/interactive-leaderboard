@@ -19,10 +19,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="team in gameStore.teams">
+                <tr v-for="(team, index) in gameStore.teams" :key="team.id">
                     <td>
-                        <div class="rounded-full h-10 w-10 " :style="{ backgroundColor: team.color }">
+
+                        <div class="rounded-full h-10 w-10 flex justify-center align-center cursor-pointer color-btn"
+                            :style="{ backgroundColor: team.color }">
+                            <v-icon @click="changeColor(index, $event.target)" icon="mdi-cached" color="white"
+                                class="!w-full !h-full !hidden  rounded-full bg-opacity-50 bg-gray-400"></v-icon>
                         </div>
+
                     </td>
                     <td>avatar</td>
                     <td> <v-text-field v-model="team.name"></v-text-field></td>
@@ -30,8 +35,7 @@
                 </tr>
             </tbody>
         </v-table>
-        <v-container fluid>
-        </v-container>
+
     </v-sheet>
 </template>
 
@@ -43,6 +47,7 @@ const gameStore = useGameStore()
 
 const generateATeam = (): ITeam => {
     let newTeam: ITeam = {
+        id: gameStore.teams.length,
         name: '',
         color: colorGenerator(),
         points: gameStore.gameSettings.initialPoints,
@@ -78,10 +83,27 @@ const fixInitailPoints = () => {
 onMounted(() => {
     fixTeamsArrayLength()
 })
+
+
+
+const changeColor = (index: number, element: Element) => {
+    gameStore.teams[index].color = colorGenerator();
+    element.classList.toggle('rotate-arrow')
+}
 </script>
 
 <style scoped>
 .v-sheet {
     background: #FFF9B8;
+}
+
+.color-btn:hover>.v-icon {
+    display: inline-flex !important;
+    transition: all 0.5s ease-in;
+}
+
+.rotate-arrow {
+    transform: rotate(90deg);
+
 }
 </style>
