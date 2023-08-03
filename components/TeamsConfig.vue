@@ -32,7 +32,7 @@
 
                     <td> <v-avatar size="x-large" class="avatar-cont relative">
                             <div v-html="team.avatar" class="w-full h-full absolute"></div>
-                            <v-icon @click="changeAvatar(team.id)" icon="mdi-cached" color="white"
+                            <v-icon @click="changeAvatar(team.id, $event.target)" icon="mdi-cached" color="white"
                                 class="!w-full !h-full !hidden  rounded-full bg-opacity-80 bg-gray-500 absolute"></v-icon>
                         </v-avatar>
                     </td>
@@ -88,8 +88,9 @@ const changeColor = (index: number, element: Element) => {
     element.classList.toggle('rotate-arrow')
 }
 
-const changeAvatar = (teamId: number) => {
-
+const changeAvatar = (teamId: number, element: Element) => {
+    element.classList.toggle('rotate-arrow');
+    gameStore.changeAvatar(teamId, 'normalFaces', false)
 }
 </script>
 
@@ -105,7 +106,7 @@ const changeAvatar = (teamId: number) => {
 
 .avatar-cont:hover>.v-icon {
     display: inline-flex !important;
-    transition: all 0.5s ease-in;
+    transition: all 0.2s ease-in;
 }
 
 .rotate-arrow {

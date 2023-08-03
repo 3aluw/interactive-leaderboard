@@ -18,7 +18,7 @@ let teams : Ref<ITeam[]> =ref([])
 
 
 const generateATeam = (): ITeam => {
-  const newAvatar = avatarGenerator("", 'normalFaces')
+  const [svg, avatarObj] = avatarGenerator("", 'normalFaces')
   //create a new team teams
   let newTeam: ITeam = {
       id: teams.value.length,
@@ -26,10 +26,10 @@ const generateATeam = (): ITeam => {
       color: colorGenerator(),
       points: gameSettings.value.initialPoints,
       history: [],
-      avatar: newAvatar[0]
+      avatar: svg
   }
   //push the created avatar to avatars obj
-  assignAvatar(newTeam.id, newAvatar[1])
+  assignAvatar(newTeam.id, avatarObj)
   return newTeam
 }
 const addATeam = ()=>{teams.value.push(generateATeam())}
@@ -40,9 +40,22 @@ const assignAvatar = (index: number, avatarObj: IAvatar)=>{
   avatars.value[index] = avatarObj
 }
 
+const changeAvatar=(index:number, face:'normalFaces'| 'happyFaces' | 'sadFaces' = "normalFaces", isSameHead : boolean)=>{
+const {seed,head}=avatars.value[index];
+
+ if(!isSameHead) {
+  const [svg, avatarObj] = avatarGenerator('', face)
+avatars.value[index] = avatarObj;
+const teamIndex: number =  teams.value.findIndex((team)=> team.id === index )
+teams.value[teamIndex].avatar = svg
+
+}
+
+}
+
 
   return {
-    gameSettings, teams, avatars , addATeam,
+    gameSettings, teams, avatars , addATeam, changeAvatar
   };
 },
 /* Enable this to persist this store : more info : https://prazdevs.github.io/pinia-plugin-persistedstate/frameworks/nuxt-3.html

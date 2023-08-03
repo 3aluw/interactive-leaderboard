@@ -119,23 +119,23 @@ headArray.push(heads[createARandomNumber(0,(heads.length-1))])
 return headArray
 }
 
-  export default function (seed:string,  face:'normalFaces'| 'happyFaces' | 'sadFaces'): [string,IAvatar] {
+  export default function (seed:string,  face:'normalFaces'| 'happyFaces' | 'sadFaces', head?:headType): [string,IAvatar] {
   
     let faceArray:faceType = generateFace(face);
-   let headArray : headType = generateHead()
+   let headArray : headType = head ?? generateHead()
 console.log({headArray,faceArray})
 //generate a seed
 if(seed.length == 0){seed = Math.random().toString(36).substring(2,10)}
 
 let avatarObj: IAvatar = {"seed": seed, "face": faceArray , "head" : headArray}
 
-let avatar =  createAvatar(openPeeps,{
+let avatarSvg =  createAvatar(openPeeps,{
     seed : seed,
     facialHairProbability: 10,
     accessoriesProbability: 10, 
     head: headArray,
-      face: faceArray 
+    face: faceArray 
 
 }).toString()
-return[ avatar, avatarObj]
+return[ avatarSvg, avatarObj]
   }
