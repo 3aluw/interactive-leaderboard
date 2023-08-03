@@ -108,14 +108,14 @@ const usedArrays ={
   'happyFaces' : happyFaces,
   'sadFaces' : sadFaces,
 }
-const randomIndex = createARandomNumber(0, usedArrays[face].length)
+const randomIndex = createARandomNumber(0, (usedArrays[face].length-1))
 faceArray.push(usedArrays[face][randomIndex])
 return faceArray
 }
 
 const generateHead = ():headType=>{
 let headArray: headType = []
-headArray.push(heads[createARandomNumber(0,heads.length)])
+headArray.push(heads[createARandomNumber(0,(heads.length-1))])
 return headArray
 }
 

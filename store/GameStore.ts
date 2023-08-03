@@ -17,12 +17,32 @@ const gameSettings: Ref<IGameSettings> = ref({
 let teams : Ref<ITeam[]> =ref([]) 
 
 
-let avatars : Ref<IAvatar[]> = ref([])
+const generateATeam = (): ITeam => {
+  const newAvatar = avatarGenerator("", 'normalFaces')
+  //create a new team teams
+  let newTeam: ITeam = {
+      id: teams.value.length,
+      name: '',
+      color: colorGenerator(),
+      points: gameSettings.value.initialPoints,
+      history: [],
+      avatar: newAvatar[0]
+  }
+  //push the created avatar to avatars obj
+  assignAvatar(newTeam.id, newAvatar[1])
+  return newTeam
+}
+const addATeam = ()=>{teams.value.push(generateATeam())}
 
+
+let avatars : Ref<IAvatar[]> = ref([])
+const assignAvatar = (index: number, avatarObj: IAvatar)=>{
+  avatars.value[index] = avatarObj
+}
 
 
   return {
-    gameSettings, teams, avatars
+    gameSettings, teams, avatars , addATeam,
   };
 },
 /* Enable this to persist this store : more info : https://prazdevs.github.io/pinia-plugin-persistedstate/frameworks/nuxt-3.html
