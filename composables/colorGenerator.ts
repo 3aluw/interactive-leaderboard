@@ -8,5 +8,5 @@ const CreateARandomNumber=(min:number, max:number):number=>{
 
 
 export default function (): string {
-  return  randomHex(CreateARandomNumber(70,99), CreateARandomNumber(40,70))
+  return  randomHex(CreateARandomNumber(60,99), CreateARandomNumber(35,65))
 }

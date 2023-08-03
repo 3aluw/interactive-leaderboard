@@ -1,3 +1,4 @@
+import{Options} from "@dicebear/open-peeps"
 interface IGameSettings {
     gameType : "turn-based" | 'real-time' | '',
     initialPoints :number ,
@@ -12,9 +13,15 @@ interface ITeam {
   color: string,
   points: number,
   history: string[],
-  avatar? : string
+  avatar? : string,
+  id: number
+}
+interface IAvatar{
+  seed: string,
+  head:Options["head"],
+  face: Options["face"],
 }
 
 export{IGameSettings,
-  ITeam
+  ITeam, IAvatar
 }

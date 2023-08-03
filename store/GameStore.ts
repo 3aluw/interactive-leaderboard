@@ -1,6 +1,6 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import{IGameSettings,
-  ITeam} from 'store/interfaces'
+  ITeam, IAvatar} from 'store/interfaces'
 
 export const useGameStore = defineStore("GameStore", () => {
   
@@ -17,11 +17,12 @@ const gameSettings: Ref<IGameSettings> = ref({
 let teams : Ref<ITeam[]> =ref([]) 
 
 
+let avatars : Ref<IAvatar[]> = ref([])
 
 
 
   return {
-    gameSettings, teams
+    gameSettings, teams, avatars
   };
 },
 /* Enable this to persist this store : more info : https://prazdevs.github.io/pinia-plugin-persistedstate/frameworks/nuxt-3.html

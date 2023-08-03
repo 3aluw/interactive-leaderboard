@@ -46,13 +46,18 @@ const gameStore = useGameStore()
 
 
 const generateATeam = (): ITeam => {
+    const newAvatar = avatarGenerator("", 'normalFaces')
+    //create a new team teams
     let newTeam: ITeam = {
         id: gameStore.teams.length,
         name: '',
         color: colorGenerator(),
         points: gameStore.gameSettings.initialPoints,
         history: [],
+        avatar: newAvatar[0]
     }
+    //push the created avatar to avatars obj
+    gameStore.avatars.push(newAvatar[1])
     return newTeam
 }
 
@@ -80,8 +85,10 @@ const fixInitailPoints = () => {
     gameStore.teams.forEach((team) => team.points = gameStore.gameSettings.initialPoints)
 }
 
+console.log(avatarGenerator('', 'normalFaces'));
 onMounted(() => {
-    fixTeamsArrayLength()
+    fixTeamsArrayLength();
+
 })
 
 
