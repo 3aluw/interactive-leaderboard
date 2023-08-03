@@ -29,7 +29,13 @@
                         </div>
 
                     </td>
-                    <td>avatar</td>
+
+                    <td> <v-avatar size="x-large" class="avatar-cont relative">
+                            <div v-html="team.avatar" class="w-full h-full absolute"></div>
+                            <v-icon @click="changeAvatar(team.id)" icon="mdi-cached" color="white"
+                                class="!w-full !h-full !hidden  rounded-full bg-opacity-80 bg-gray-500 absolute"></v-icon>
+                        </v-avatar>
+                    </td>
                     <td> <v-text-field v-model="team.name"></v-text-field></td>
                     <td> <v-btn>generate a name</v-btn></td>
                 </tr>
@@ -45,22 +51,6 @@ import { ITeam } from 'store/interfaces'
 const gameStore = useGameStore()
 
 
-const generateATeam = (): ITeam => {
-    const newAvatar = avatarGenerator("", 'normalFaces')
-    //create a new team teams
-    let newTeam: ITeam = {
-        id: gameStore.teams.length,
-        name: '',
-        color: colorGenerator(),
-        points: gameStore.gameSettings.initialPoints,
-        history: [],
-        avatar: newAvatar[0]
-    }
-    //push the created avatar to avatars obj
-    gameStore.avatars.push(newAvatar[1])
-    return newTeam
-}
-
 const fixTeamsArrayLength = () => {
     //do we need to addteams of delete teams
     let numberOfParticipants = gameStore.gameSettings.participantsNumber
@@ -70,7 +60,7 @@ const fixTeamsArrayLength = () => {
     if (neededNewTeams >= 0) {
         let i = 1;
         while (i <= neededNewTeams) {
-            gameStore.teams.push(generateATeam())
+            gameStore.addATeam()
             i++
         }
     }
@@ -97,6 +87,10 @@ const changeColor = (index: number, element: Element) => {
     gameStore.teams[index].color = colorGenerator();
     element.classList.toggle('rotate-arrow')
 }
+
+const changeAvatar = (teamId: number) => {
+
+}
 </script>
 
 <style scoped>
@@ -105,6 +99,11 @@ const changeColor = (index: number, element: Element) => {
 }
 
 .color-btn:hover>.v-icon {
+    display: inline-flex !important;
+    transition: all 0.5s ease-in;
+}
+
+.avatar-cont:hover>.v-icon {
     display: inline-flex !important;
     transition: all 0.5s ease-in;
 }
