@@ -1,55 +1,63 @@
 <template>
     <v-sheet width="1000" class="mx-auto px-4">
         <h1 class="text-center text-3xl my-2 mb-10 ">Game settings</h1>
-        <v-table fixed-header height="300px">
-            <thead>
-                <tr>
-                    <th class="text-left">
-                        color
-                    </th>
-                    <th class="text-left">
-                        avatar
-                    </th>
-                    <th class="text-left">
-                        name
-                    </th>
-                    <th class="text-left">
+        <v-form v-model="isFormValid">
+            <v-table fixed-header height="300px">
+                <thead>
+                    <tr>
+                        <th class="text-left">
+                            color
+                        </th>
+                        <th class="text-left">
+                            avatar
+                        </th>
+                        <th class="text-left">
+                            name
+                        </th>
+                        <th class="text-left">
 
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(team, index) in gameStore.teams" :key="team.id">
-                    <td>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                        <div class="rounded-full h-10 w-10 flex justify-center align-center cursor-pointer color-btn"
-                            :style="{ backgroundColor: team.color }">
-                            <v-icon @click="changeColor(index, $event.target)" icon="mdi-cached" color="white"
-                                class="!w-full !h-full !hidden  rounded-full bg-opacity-50 bg-gray-400"></v-icon>
-                        </div>
+                    <tr v-for="(team, index) in gameStore.teams" :key="team.id">
+                        <td>
 
-                    </td>
+                            <div class="rounded-full h-10 w-10 flex justify-center align-center cursor-pointer color-btn"
+                                :style="{ backgroundColor: team.color }">
+                                <v-icon @click="changeColor(index, $event.target)" icon="mdi-cached" color="white"
+                                    class="!w-full !h-full !hidden  rounded-full bg-opacity-50 bg-gray-400"></v-icon>
+                            </div>
 
-                    <td> <v-avatar size="x-large" class="avatar-cont relative">
-                            <div v-html="team.avatar" class="w-full h-full absolute"></div>
-                            <v-icon @click="changeAvatar(team.id, $event.target)" icon="mdi-cached" color="white"
-                                class="!w-full !h-full !hidden  rounded-full bg-opacity-80 bg-gray-500 absolute"></v-icon>
-                        </v-avatar>
-                    </td>
-                    <td> <v-text-field v-model="team.name"></v-text-field></td>
-                    <td> <v-btn>generate a name</v-btn></td>
-                </tr>
-            </tbody>
-        </v-table>
+                        </td>
 
+                        <td> <v-avatar size="x-large" class="avatar-cont relative">
+                                <div v-html="team.avatar" class="w-full h-full absolute "></div>
+                                <v-icon @click="changeAvatar(team.id, $event.target)" icon="mdi-cached" color="white"
+                                    class="!w-full !h-full !hidden  rounded-full bg-opacity-80 bg-gray-500 absolute"></v-icon>
+                            </v-avatar>
+                        </td>
+
+                        <td> <v-text-field v-model="team.name" :rules="nameRule">
+                                <v-icon @click="gameStore.assigRandomName(index)" icon="mdi-cached" color="black"
+                                    class="mr-4 name-icon">
+                                </v-icon></v-text-field></td>
+
+                    </tr>
+
+                </tbody>
+
+            </v-table>
+        </v-form>
+        {{ isFormValid }}
     </v-sheet>
 </template>
 
 <script setup lang="ts">
 import { useGameStore } from '@/store/GameStore'
-import { ITeam } from 'store/interfaces'
-const gameStore = useGameStore()
-
+const gameStore = useGameStore();
+const isFormValid = ref();
 
 const fixTeamsArrayLength = () => {
     //do we need to addteams of delete teams
@@ -75,7 +83,7 @@ const fixInitailPoints = () => {
     gameStore.teams.forEach((team) => team.points = gameStore.gameSettings.initialPoints)
 }
 
-console.log(avatarGenerator('', 'normalFaces'));
+
 onMounted(() => {
     fixTeamsArrayLength();
 
@@ -92,6 +100,16 @@ const changeAvatar = (teamId: number, element: Element) => {
     element.classList.toggle('rotate-arrow');
     gameStore.changeAvatar(teamId, 'normalFaces', false)
 }
+
+
+const nameRule = [
+    (value: string) => {
+
+        if (value.length >= 4 && value.length <= 10) return true
+
+        return '11> chars >5'
+    }
+]
 </script>
 
 <style scoped>
@@ -112,5 +130,13 @@ const changeAvatar = (teamId: number, element: Element) => {
 .rotate-arrow {
     transform: rotate(90deg);
 
+}
+
+.v-messages__message {
+    position: absolute;
+}
+
+.name-icon {
+    margin-left: -10px;
 }
 </style>

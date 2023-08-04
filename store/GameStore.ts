@@ -1,6 +1,7 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
-import{IGameSettings,
-  ITeam, IAvatar} from 'store/interfaces'
+import{IGameSettings, ITeam, IAvatar} from 'store/interfaces'
+import  names from '~/assets/names.json' 
+
 
 export const useGameStore = defineStore("GameStore", () => {
   
@@ -35,6 +36,13 @@ const generateATeam = (): ITeam => {
 const addATeam = ()=>{teams.value.push(generateATeam())}
 
 
+const assigRandomName = (index:number) =>{  
+  const randomName =  names[Math.floor(Math.random() * names.length)]
+  teams.value[index].name = randomName
+}
+
+
+
 let avatars : Ref<IAvatar[]> = ref([])
 const assignAvatar = (index: number, avatarObj: IAvatar)=>{
   avatars.value[index] = avatarObj
@@ -48,14 +56,13 @@ const {seed,head}=avatars.value[index];
 avatars.value[index] = avatarObj;
 const teamIndex: number =  teams.value.findIndex((team)=> team.id === index )
 teams.value[teamIndex].avatar = svg
-
 }
-
 }
 
 
   return {
-    gameSettings, teams, avatars , addATeam, changeAvatar
+    gameSettings, teams,assigRandomName,
+     avatars , addATeam, changeAvatar
   };
 },
 /* Enable this to persist this store : more info : https://prazdevs.github.io/pinia-plugin-persistedstate/frameworks/nuxt-3.html
