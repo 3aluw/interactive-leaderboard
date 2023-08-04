@@ -24,9 +24,11 @@
                             </div>
                         </template>
                         <v-card>
-                            <GameSettings v-if="showGameSettings"
+                            <GameSettings v-if="showGameSettings && step == 1"
                                 @form-validation="(value) => isGameSettingFormValid = value" />
 
+                            <TeamsConfig v-if="showTeamsConfig && step == 2"
+                                @form-validation="(value) => isTeamsConfigFormValid = value" />
 
                             <div class="flex justify-center gap-4 dialog-nav-btns mb-2 ">
                                 <v-btn prepend-icon="mdi:mdi-arrow-left" variant="outlined" color="balck"
@@ -44,7 +46,7 @@
                 </div>
             </div>
         </main>
-        <TeamsConfig />
+
     </div>
 </template>
 <script setup lang="ts">
@@ -52,6 +54,8 @@
 const dialog: Ref<boolean> = ref(false)
 const showGameSettings = ref(true)
 const isGameSettingFormValid = ref()
+const showTeamsConfig = ref(false)
+const isTeamsConfigFormValid = ref()
 
 const step: Ref<number> = ref(1)
 

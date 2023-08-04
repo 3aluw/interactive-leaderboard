@@ -39,7 +39,7 @@
                             </v-avatar>
                         </td>
 
-                        <td> <v-text-field v-model="team.name" :rules="nameRule">
+                        <td> <v-text-field v-model="team.name" :rules="nameRule" variant="underlined">
                                 <v-icon @click="gameStore.assigRandomName(index)" icon="mdi-cached" color="black"
                                     class="mr-4 name-icon">
                                 </v-icon></v-text-field></td>
@@ -58,6 +58,10 @@
 import { useGameStore } from '@/store/GameStore'
 const gameStore = useGameStore();
 const isFormValid = ref();
+const emit = defineEmits(['formValidation'])
+watch(isFormValid, () => {
+    emit('formValidation', isFormValid.value)
+})
 
 const fixTeamsArrayLength = () => {
     //do we need to addteams of delete teams
