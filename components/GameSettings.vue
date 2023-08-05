@@ -121,9 +121,9 @@ const pointsRules = [
     }
 ]
 const requiedRule = [
-    (value: boolean) => {
+    (value: (string | boolean)) => {
 
-        if (typeof value === 'boolean') return true
+        if (value !== '') return true
 
         return 'This field is required'
     }

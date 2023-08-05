@@ -24,13 +24,16 @@
                             </div>
                         </template>
                         <v-card>
-                            <GameSettings v-if="showGameSettings && step == 1"
-                                @form-validation="(value) => isGameSettingFormValid = value" />
-
-                            <TeamsConfig v-if="showTeamsConfig && step == 2"
-                                @form-validation="(value) => isTeamsConfigFormValid = value" />
-
+                            <v-fade-transition :hideOnLeave=true>
+                                <GameSettings v-if="step == 1"
+                                    @form-validation="(value) => isGameSettingFormValid = value" />
+                            </v-fade-transition>
+                            <v-fade-transition :hideOnLeave=true>
+                                <TeamsConfig v-if="step == 2"
+                                    @form-validation="(value) => isTeamsConfigFormValid = value" />
+                            </v-fade-transition>
                             <div class="flex justify-center gap-4 dialog-nav-btns mb-2 ">
+
                                 <v-btn prepend-icon="mdi:mdi-arrow-left" variant="outlined" color="balck"
                                     :disabled="step == 1" @click="step -= 1">BACK</v-btn>
                                 <v-btn append-icon="$next" variant="outlined" color="balck" v-if="step === 1"
@@ -52,11 +55,9 @@
 <script setup lang="ts">
 //show components
 const dialog: Ref<boolean> = ref(false)
-const showGameSettings = ref(true)
 const isGameSettingFormValid = ref()
-const showTeamsConfig = ref(false)
 const isTeamsConfigFormValid = ref()
-
+//form steps
 const step: Ref<number> = ref(1)
 
 </script>
