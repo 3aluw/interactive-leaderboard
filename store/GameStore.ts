@@ -36,12 +36,14 @@ const generateATeam = (): ITeam => {
 const addATeam = ()=>{teams.value.push(generateATeam())}
 
 
-const assigRandomName = (index:number) =>{  
+const changeName = (index:number) =>{  
   const randomName =  names[Math.floor(Math.random() * names.length)]
   teams.value[index].name = randomName
 }
 
-
+const changeColor = (index:number)=>{
+  teams.value[index].color = colorGenerator()
+}
 
 let avatars : Ref<IAvatar[]> = ref([])
 const assignAvatar = (index: number, avatarObj: IAvatar)=>{
@@ -50,7 +52,6 @@ const assignAvatar = (index: number, avatarObj: IAvatar)=>{
 
 const changeAvatar=(index:number, face:'normalFaces'| 'happyFaces' | 'sadFaces' = "normalFaces", isSameHead : boolean)=>{
 const {seed,head}=avatars.value[index];
-
  if(!isSameHead) {
   const [svg, avatarObj] = avatarGenerator('', face)
 avatars.value[index] = avatarObj;
@@ -60,9 +61,20 @@ teams.value[teamIndex].avatar = svg
 }
 
 
+const randomizeAll = (property:"colors"|"avatars"|"names")=>{
+switch(property){
+  case"colors": teams.value.forEach((el,index)=>{changeColor(index)}); break;
+  case"avatars": teams.value.forEach((el,index)=>{changeAvatar(index,'normalFaces',false)}); break;
+  case"names": teams.value.forEach((el,index)=>{changeName(index)}); break;
+}
+
+
+}
+
+
   return {
-    gameSettings, teams,assigRandomName,
-     avatars , addATeam, changeAvatar
+    gameSettings, teams,changeName, changeColor,
+     avatars , addATeam, changeAvatar, randomizeAll
   };
 },
 /* Enable this to persist this store : more info : https://prazdevs.github.io/pinia-plugin-persistedstate/frameworks/nuxt-3.html

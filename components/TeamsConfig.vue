@@ -6,17 +6,36 @@
                 <thead>
                     <tr>
                         <th class="text-left">
+                            <v-tooltip text="randomize colors" location="bottom">
+                                <template v-slot:activator="{ props }">
+                                    <v-icon v-bind="props"
+                                        @click="gameStore.randomizeAll('colors'), arrowRotator($event.target)"
+                                        icon="mdi-cached" color="black" class="mr-4 arrow-icon">
+                                    </v-icon> </template>
+                            </v-tooltip>
                             color
                         </th>
                         <th class="text-left">
+                            <v-tooltip text="randomize avatars" location="bottom">
+                                <template v-slot:activator="{ props }">
+                                    <v-icon v-bind="props"
+                                        @click="arrowRotator($event.target), gameStore.randomizeAll('avatars')"
+                                        icon="mdi-cached" color="black" class="mr-4 arrow-icon">
+                                    </v-icon></template>
+                            </v-tooltip>
                             avatar
                         </th>
                         <th class="text-left">
+                            <v-tooltip text="randomize names" location="bottom">
+                                <template v-slot:activator="{ props }">
+                                    <v-icon v-bind="props"
+                                        @click="arrowRotator($event.target), gameStore.randomizeAll('names')"
+                                        icon="mdi-cached" color="black" class="mr-4 arrow-icon">
+                                    </v-icon></template>
+                            </v-tooltip>
                             name
                         </th>
-                        <th class="text-left">
 
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,7 +45,8 @@
 
                             <div class="rounded-full h-10 w-10 flex justify-center align-center cursor-pointer color-btn"
                                 :style="{ backgroundColor: team.color }">
-                                <v-icon @click="changeColor(index, $event.target)" icon="mdi-cached" color="white"
+                                <v-icon @click="gameStore.changeColor(index), arrowRotator($event.target)" icon="mdi-cached"
+                                    color="white"
                                     class="!w-full !h-full !hidden  rounded-full bg-opacity-50 bg-gray-400"></v-icon>
                             </div>
 
@@ -40,8 +60,8 @@
                         </td>
 
                         <td> <v-text-field v-model="team.name" :rules="nameRule" variant="underlined">
-                                <v-icon @click="gameStore.assigRandomName(index)" icon="mdi-cached" color="black"
-                                    class="mr-4 name-icon">
+                                <v-icon @click="gameStore.changeName(index), arrowRotator($event.target)" icon="mdi-cached"
+                                    color="black" class="mr-4  arrow-icon">
                                 </v-icon></v-text-field></td>
 
                     </tr>
@@ -95,23 +115,23 @@ onMounted(() => {
 
 
 
-const changeColor = (index: number, element: Element) => {
-    gameStore.teams[index].color = colorGenerator();
-    element.classList.toggle('rotate-arrow')
-}
 
 const changeAvatar = (teamId: number, element: Element) => {
     element.classList.toggle('rotate-arrow');
     gameStore.changeAvatar(teamId, 'normalFaces', false)
 }
 
+const arrowRotator = (element: Element) => {
+    element.classList.toggle('rotate-arrow');
+}
+
 
 const nameRule = [
     (value: string) => {
 
-        if (value.length >= 4 && value.length <= 10) return true
+        if (value.length >= 3 && value.length <= 10) return true
 
-        return '11> chars >5'
+        return '11> chars >2'
     }
 ]
 </script>
@@ -131,16 +151,16 @@ const nameRule = [
     transition: all 0.2s ease-in;
 }
 
+.arrow-icon {
+    transition: all 0.2s ease-in-out;
+}
+
 .rotate-arrow {
-    transform: rotate(90deg);
+    transform: rotate(180deg);
 
 }
 
 .v-messages__message {
     position: absolute;
-}
-
-.name-icon {
-    margin-left: -10px;
 }
 </style>
