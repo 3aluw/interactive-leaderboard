@@ -7,16 +7,18 @@ export const useGameStore = defineStore("GameStore", () => {
   
 
 
-const gameSettings: Ref<IGameSettings> = ref({
+const gameSettings: Ref<IGameSettings> = ref(
+  {
   gameType: '',
   initialPoints: 0,
   participantsNumber: 3,
   winAt: 10,
   buttons: [2, 5],
-})
+}
+)
 
-let teams : Ref<ITeam[]> =ref([]) 
-
+ let teams : Ref<ITeam[]> =ref([]) 
+let avatars : Ref<IAvatar[]> = ref([])
 
 const generateATeam = (): ITeam => {
   const [svg, avatarObj] = avatarGenerator("", 'normalFaces')
@@ -45,7 +47,8 @@ const changeColor = (index:number)=>{
   teams.value[index].color = colorGenerator()
 }
 
-let avatars : Ref<IAvatar[]> = ref([])
+
+
 const assignAvatar = (index: number, avatarObj: IAvatar)=>{
   avatars.value[index] = avatarObj
 }

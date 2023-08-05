@@ -13,7 +13,7 @@ interface ITeam {
   color: string,
   points: number,
   history: string[],
-  avatar? : string,
+  avatar : string,
   id: number
 }
 interface IAvatar{
