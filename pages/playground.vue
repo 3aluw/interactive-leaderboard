@@ -1,6 +1,6 @@
 <template>
-    <div class="playground-container flex gap-3 flex-wrap" ref="container">
-        <div class="team-cont flex-wrap" v-for="(team, index) in gameStore.teams"
+    <TransitionGroup name="list" tag="div" class="playground-container flex gap-3 flex-wrap" ref="container">
+        <div class="team-cont flex-wrap" v-for="(team, index) in gameStore.teams" :key="team.id"
             :style="{ 'background-color': team.color, 'width': widths[index] + 'px' }">
             <div class="team-infos text-center">
                 <div class="flex align-center flex-wrap">
@@ -19,7 +19,7 @@
             </div>
 
         </div>
-    </div>
+    </TransitionGroup>
 </template>
 <script setup lang="ts">
 import { useGameStore } from '@/store/GameStore'
@@ -78,7 +78,6 @@ onMounted(() => {
 
     widthsGenerator()
     window.addEventListener('resize', onResize)
-
 })
 
 const onResize = () => {
@@ -113,5 +112,24 @@ const onResize = () => {
     gap: 0.5rem;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+.list-move,
+/* apply transition to moving elements */
+.list-enter-active,
+.list-leave-active {
+    transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+    opacity: 0.5;
+    transform: translateX(30px);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.list-leave-active {
+    position: absolute;
 }
 </style>

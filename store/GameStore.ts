@@ -79,7 +79,12 @@ const team = teams.value[index];
 
 team.history.push(team.points)
 type === '+' ? team.points += pts : team.points -= pts;
+changeRank()
+}
 
+const changeRank =()=>{
+  var sortedArray = teams.value.sort((a, b) => b.points-a.points);
+teams.value = sortedArray
 }
 
 
@@ -89,7 +94,7 @@ type === '+' ? team.points += pts : team.points -= pts;
 return {
     gameSettings, teams,changeName, changeColor,
      avatars , addATeam, changeAvatar, randomizeAll,
-     changePoints
+     changePoints, 
   };
 },
 {
