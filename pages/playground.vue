@@ -34,39 +34,50 @@ const smallVw = breakpoints.smallerOrEqual('phone');
 const midVw = breakpoints.between("phone", "tablet");
 const largeVw = breakpoints.greaterOrEqual("tablet");
 
+
+
 const widths: Ref<number[]> = ref([])
 
-const sigleWidthGenerator = (index: number) => {
-    let schema: number[] = largeVw.value ? [1, 2, 3] : midVw.value ? [2, 3] : [3]
+const widthsGenerator = () => {
+    widths.value = [];
+    let schema: number[] = largeVw.value ? [1, 2, 3] : midVw.value ? [2, 3] : [1]
 
+    gameStore.teams.forEach((el, index) => {
+        let res: number = 1;
+        for (let i = 0; i < schema.length; i++) {
+            let currentValue = schema[0]
+            //find the sum to the current i
+            schema.reduce((acc, cr, cIndex) => {
+                if (cIndex === i) { currentValue = (acc + cr) }
+                return acc + cr
+            })
 
-    let res: number = 1;
+            if (index < currentValue) {
+                res = schema[i]
+                break;
+            } else { res = schema[schema.length - 1] }
+        }
+        const width = ((playgroundWidth.value - (16 * (res - 1))) / res)
+        widths.value.push(width)
+    })
 
-    for (let i = 0; i < schema.length; i++) {
-        let currentValue = schema[0]
-        //find the sum to the current i
-        schema.reduce((acc, cr, cIndex) => {
-            if (cIndex === i) { currentValue = (acc + cr) }
-            return acc + cr
-        })
-
-        if (index < currentValue) {
-            res = schema[i]
-            break;
-        } else { res = schema[schema.length - 1] }
-    }
-    const width = ((playgroundWidth.value - (16 * (res - 1))) / res)
-    widths.value.push(width)
-    return res
 
 
 }
+
+
 onMounted(() => {
 
     playgroundWidth.value = container.value?.getBoundingClientRect().width ?? 300;
 
-    gameStore.teams.forEach((el, index) => sigleWidthGenerator(index))
+    widthsGenerator()
+    window.addEventListener('resize', onResize)
 
-    console.log(playgroundWidth.value, widths.value)
 })
+
+const onResize = () => {
+    playgroundWidth.value = container.value?.getBoundingClientRect().width ?? 300;
+    widthsGenerator()
+
+}
 </script>
