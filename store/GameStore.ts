@@ -20,6 +20,7 @@ const gameSettings: Ref<IGameSettings> = ref(
  let teams : Ref<ITeam[]> =ref([]) 
 let avatars : Ref<IAvatar[]> = ref([])
 
+//start form 
 const generateATeam = (): ITeam => {
   const [svg, avatarObj] = avatarGenerator("", 'normalFaces')
   //create a new team teams
@@ -53,6 +54,14 @@ const assignAvatar = (index: number, avatarObj: IAvatar)=>{
   avatars.value[index] = avatarObj
 }
 
+const randomizeAll = (property:"colors"|"avatars"|"names")=>{
+switch(property){
+  case"colors": teams.value.forEach((el,index)=>{changeColor(index)}); break;
+  case"avatars": teams.value.forEach((el,index)=>{changeAvatar(index,'normalFaces',false)}); break;
+  case"names": teams.value.forEach((el,index)=>{changeName(index)}); break;
+}
+}
+
 const changeAvatar=(index:number, face:'normalFaces'| 'happyFaces' | 'sadFaces' = "normalFaces", isSameHead : boolean)=>{
 const {seed,head}=avatars.value[index];
  if(!isSameHead) {
@@ -64,20 +73,23 @@ teams.value[teamIndex].avatar = svg
 }
 
 
-const randomizeAll = (property:"colors"|"avatars"|"names")=>{
-switch(property){
-  case"colors": teams.value.forEach((el,index)=>{changeColor(index)}); break;
-  case"avatars": teams.value.forEach((el,index)=>{changeAvatar(index,'normalFaces',false)}); break;
-  case"names": teams.value.forEach((el,index)=>{changeName(index)}); break;
+//during the game 
+const changePoints = (index:number, type:"+"|"-", pts:number)=>{
+const team = teams.value[index];
+
+team.history.push(team.points)
+type === '+' ? team.points += pts : team.points -= pts;
+
 }
 
 
-}
 
 
-  return {
+
+return {
     gameSettings, teams,changeName, changeColor,
-     avatars , addATeam, changeAvatar, randomizeAll
+     avatars , addATeam, changeAvatar, randomizeAll,
+     changePoints
   };
 },
 {

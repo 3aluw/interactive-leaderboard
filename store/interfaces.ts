@@ -12,7 +12,7 @@ interface ITeam {
   name : string,
   color: string,
   points: number,
-  history: string[],
+  history: number[],
   avatar : string,
   id: number
 }

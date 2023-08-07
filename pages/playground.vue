@@ -3,7 +3,7 @@
         <div class="team-cont flex-wrap" v-for="(team, index) in gameStore.teams"
             :style="{ 'background-color': team.color, 'width': widths[index] + 'px' }">
             <div class="team-infos text-center">
-                <div class="flex align-center">
+                <div class="flex align-center flex-wrap">
                     <v-avatar size="x-large" class="avatar-cont relative">
                         <div v-html="team.avatar" class="w-full h-full absolute "></div>
                     </v-avatar>
@@ -13,9 +13,9 @@
             </div>
             <div class="btn-container flex gap-1 flex-col">
                 <div class="plus-btns">
-                    <v-btn v-for="btn in gameStore.gameSettings.buttons">{{ btn }}</v-btn>
+                    <buttons :width="widths[index]" :index=index />
                 </div>
-                <div class="minus-btns"><v-btn v-for="btn in gameStore.gameSettings.buttons">{{ btn }}</v-btn></div>
+
             </div>
 
         </div>
@@ -45,7 +45,7 @@ const widths: Ref<number[]> = ref([])
 
 const widthsGenerator = () => {
     widths.value = [];
-    let schema: number[] = largeVw.value ? [1, 2, 3] : midVw.value ? [2, 3] : [1]
+    let schema: number[] = largeVw.value ? [1, 2, 3] : midVw.value ? [1, 2] : [1]
 
     gameStore.teams.forEach((el, index) => {
         let res: number = 1;
