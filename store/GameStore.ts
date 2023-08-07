@@ -76,15 +76,18 @@ teams.value[teamIndex].avatar = svg
 //during the game 
 const changePoints = (index:number, type:"+"|"-", pts:number)=>{
 const team = teams.value[index];
-
+const upTeam = teams.value[index-1]
+const downTeam =  teams.value[index+1]
 team.history.push(team.points)
 type === '+' ? team.points += pts : team.points -= pts;
-changeRank()
+
+//check if the reranking is needed
+if(team.points > upTeam?.points || team.points < downTeam?.points) {changeRank(); }
 }
 
 const changeRank =()=>{
-  var sortedArray = teams.value.sort((a, b) => b.points-a.points);
-teams.value = sortedArray
+  const sortedArray = teams.value.sort((a, b) => b.points-a.points);
+teams.value = sortedArray;
 }
 
 

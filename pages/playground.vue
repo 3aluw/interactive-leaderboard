@@ -1,25 +1,27 @@
 <template>
-    <TransitionGroup name="list" tag="div" class="playground-container flex gap-3 flex-wrap" ref="container">
-        <div class="team-cont flex-wrap" v-for="(team, index) in gameStore.teams" :key="team.id"
-            :style="{ 'background-color': team.color, 'width': widths[index] + 'px' }">
-            <div class="team-infos text-center">
-                <div class="flex align-center flex-wrap">
-                    <v-avatar size="x-large" class="avatar-cont relative">
-                        <div v-html="team.avatar" class="w-full h-full absolute "></div>
-                    </v-avatar>
-                    <p class="team-name"> {{ team.name }}</p>
+    <div ref="container" class="w-full">
+        <TransitionGroup name="list" tag="div" class="playground-container flex gap-3 flex-wrap">
+            <div class="team-cont flex-wrap" v-for="(team, index) in gameStore.teams" :key="team.id"
+                :style="{ 'background-color': team.color, 'width': widths[index] + 'px' }">
+                <div class="team-infos text-center">
+                    <div class="flex align-center flex-wrap">
+                        <v-avatar size="x-large" class="avatar-cont relative">
+                            <div v-html="team.avatar" class="w-full h-full absolute "></div>
+                        </v-avatar>
+                        <p class="team-name"> {{ team.name }}</p>
+                    </div>
+                    <p class="points">{{ team.points }}</p>
                 </div>
-                <p class="points">{{ team.points }}</p>
-            </div>
-            <div class="btn-container flex gap-1 flex-col">
-                <div class="plus-btns">
-                    <buttons :width="widths[index]" :index=index />
+                <div class="btn-container flex gap-1 flex-col">
+                    <div class="plus-btns">
+                        <buttons :width="widths[index]" :index=index v-if="widths.length" />
+                    </div>
+
                 </div>
 
             </div>
-
-        </div>
-    </TransitionGroup>
+        </TransitionGroup>
+    </div>
 </template>
 <script setup lang="ts">
 import { useGameStore } from '@/store/GameStore'
@@ -66,24 +68,19 @@ const widthsGenerator = () => {
         const width = ((playgroundWidth.value - (12 * (res - 1))) / res)
         widths.value.push(width)
     })
-
-
-
 }
 
 
 onMounted(() => {
-
     playgroundWidth.value = container.value?.getBoundingClientRect().width ?? 300;
-
     widthsGenerator()
     window.addEventListener('resize', onResize)
+
 })
 
 const onResize = () => {
     playgroundWidth.value = container.value?.getBoundingClientRect().width ?? 300;
     widthsGenerator()
-
 }
 </script>
 
