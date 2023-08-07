@@ -1,16 +1,21 @@
 <template>
-    <div class="playground-container flex gap-4 flex-wrap" ref="container">
-        <div v-for="(team, index) in gameStore.teams"
+    <div class="playground-container flex gap-3 flex-wrap" ref="container">
+        <div class="team-cont flex-wrap" v-for="(team, index) in gameStore.teams"
             :style="{ 'background-color': team.color, 'width': widths[index] + 'px' }">
-            <div class="flex">
-                <v-avatar size="x-large" class="avatar-cont relative">
-                    <div v-html="team.avatar" class="w-full h-full absolute "></div>
-                </v-avatar>
-                <p> {{ team.name }}</p>
+            <div class="team-infos text-center">
+                <div class="flex align-center">
+                    <v-avatar size="x-large" class="avatar-cont relative">
+                        <div v-html="team.avatar" class="w-full h-full absolute "></div>
+                    </v-avatar>
+                    <p class="team-name"> {{ team.name }}</p>
+                </div>
+                <p class="points">{{ team.points }}</p>
             </div>
-            <p>{{ team.points }}</p>
-            <div class="btn-container flex gap-1">
-                <v-btn v-for="btn in gameStore.gameSettings.buttons">{{ btn }}</v-btn>
+            <div class="btn-container flex gap-1 flex-col">
+                <div class="plus-btns">
+                    <v-btn v-for="btn in gameStore.gameSettings.buttons">{{ btn }}</v-btn>
+                </div>
+                <div class="minus-btns"><v-btn v-for="btn in gameStore.gameSettings.buttons">{{ btn }}</v-btn></div>
             </div>
 
         </div>
@@ -57,7 +62,8 @@ const widthsGenerator = () => {
                 break;
             } else { res = schema[schema.length - 1] }
         }
-        const width = ((playgroundWidth.value - (16 * (res - 1))) / res)
+        //genrate the width of the item by finding the available space ( removing all the gaps on the same line ) then subtruct it on the number the items on the line . 
+        const width = ((playgroundWidth.value - (12 * (res - 1))) / res)
         widths.value.push(width)
     })
 
@@ -81,3 +87,31 @@ const onResize = () => {
 
 }
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Joti+One&display=swap');
+
+.team-name {
+    font-family: 'Bungee Shade', cursive;
+    text-shadow: 10px 4px 4px rgba(0, 0, 0, 0.50);
+    color: #FFF;
+    font-size: 1.5rem;
+
+}
+
+.points {
+    font-family: 'Joti One', cursive;
+    font-size: 2rem;
+    color: white;
+}
+
+.team-cont {
+    max-height: 200px;
+    display: flex;
+
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+</style>
