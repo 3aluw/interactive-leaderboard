@@ -50,8 +50,10 @@
 </template>
 
 <script lang="ts" setup>
+import { storeToRefs } from "pinia"
 import { useGameStore } from '@/store/GameStore'
 const gameStore = useGameStore()
+//const { avatarsToChange } = storeToRefs(gameStore)
 const props = defineProps({
     width: { type: Number, required: true },
     index: { type: Number, required: true },
@@ -62,6 +64,9 @@ const showSeperated = computed((): boolean => {
     //each btn = 65 px + 16 for each gap + 0.25rem * 2  as a mrgin from the sides
     return 65 * btnsNumber + (16 * (btnsNumber - 1)) + 8 < (props.width / 2) ? true : false
 })
+
+
+
 </script>
 
 <style>

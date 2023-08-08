@@ -27,6 +27,7 @@
 import { useGameStore } from '@/store/GameStore'
 const gameStore = useGameStore()
 
+
 const container = ref<HTMLInputElement | null>(null);
 let playgroundWidth: Ref<number> = ref(300);
 
@@ -82,6 +83,21 @@ const onResize = () => {
     playgroundWidth.value = container.value?.getBoundingClientRect().width ?? 300;
     widthsGenerator()
 }
+
+watch(() => gameStore.avatarsToChange.length, () => {
+
+    console.log(gameStore.avatarsToChange)
+    gameStore.avatarsToChange.forEach((index) => { scaleAvatar(index) })
+    gameStore.clearAvatarsToChangeArray()
+})
+
+const scaleAvatar = (index: number) => {
+
+    const avatarsList = document.querySelectorAll('.v-avatar');
+    avatarsList[index]?.classList.add('scaled-avatar-one')
+    setTimeout(() => avatarsList[index]?.classList.remove('scaled-avatar-one'), 2000)
+
+}
 </script>
 
 <style>
@@ -128,5 +144,22 @@ const onResize = () => {
    animations can be calculated correctly. */
 .list-leave-active {
     position: absolute;
+}
+
+.v-avatar {
+    transition: all 1s ease-in-out;
+}
+
+.scaled-avatar-one {
+    transform: scale(2) translateY(-1rem)
+}
+
+.scaled-avatar-two {
+    transform: scale(1.5) translateY(-2rem);
+
+}
+
+.scaled-avatar-three {
+    transform: scale(1.5) rotate(80deg);
 }
 </style>
