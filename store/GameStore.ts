@@ -69,6 +69,11 @@ const {seed,head}=avatars.value[index];
 avatars.value[index] = avatarObj;
 const teamIndex: number =  teams.value.findIndex((team)=> team.id === index )
 teams.value[teamIndex].avatar = svg
+} else{
+  const [svg, avatarObj] = avatarGenerator(seed, face,head)
+  avatars.value[index] = avatarObj;
+const teamIndex: number =  teams.value.findIndex((team)=> team.id === index )
+teams.value[teamIndex].avatar = svg
 }
 }
 
@@ -78,18 +83,55 @@ const changePoints = (index:number, type:"+"|"-", pts:number)=>{
 const team = teams.value[index];
 const upTeam = teams.value[index-1]
 const downTeam =  teams.value[index+1]
+
+
 team.history.push(team.points)
 type === '+' ? team.points += pts : team.points -= pts;
 
 //check if the reranking is needed
-if(team.points > upTeam?.points || team.points < downTeam?.points) {changeRank(); }
+if(team.points > upTeam?.points || team.points < downTeam?.points) {
+ 
+  changeRank(); manageAvatarsChange(index, team.id)}
 }
 
-const changeRank =()=>{
-  const sortedArray = teams.value.sort((a, b) => b.points-a.points);
-teams.value = sortedArray;
+const changeRank =()=>{ 
+  const sortedArray = teams.value.sort((a, b) => b.points - a.points);
+  teams.value = sortedArray;
+  }
+ 
+const avatarsToChange: Ref<number[]> = ref([])
+const manageAvatarsChange=(previousRank:number, teamId:number)=>{
+
+const participantsNumber = gameSettings.value.participantsNumber;
+const currentRank = teams.value.findIndex((team)=>team.id === teamId);
+const changeInRank = -(currentRank - previousRank)/participantsNumber;
+
+//if the team got up 
+if(changeInRank>0){ 
+  //check if teh team is in the top 1/4
+  const topQuarter = (currentRank+1) >= (participantsNumber/4) ? true : false
+   if(generateOdds(changeInRank)){changeAvatar(currentRank,"happyFaces",true)}
+   else if( topQuarter && generateOdds(0.5) ){changeAvatar(currentRank,"happyFaces",true)}
+   //sad face to the outpaced team
+   if(  generateOdds(0.05)){changeAvatar((currentRank+1),"sadFaces",true)}
+}
+//if the team gone down 
+else if(changeInRank<0){ 
+ const absChange = Math.abs(changeInRank)
+
+  //check if the  team is in the bottom 1/4
+  const bottomQuarter = (currentRank+1) >= (participantsNumber-(participantsNumber/4)) ? true : false;
+
+   if(generateOdds(absChange)){changeAvatar(currentRank,"sadFaces",true); console.log(1)}
+   else if( bottomQuarter && generateOdds(0.7) ){changeAvatar(currentRank,"sadFaces",true); console.log(2)}
+   //happy face for the new up team
+   if(  generateOdds(0.05)){changeAvatar((currentRank-1),"happyFaces",true); console.log(3)}
+}
 }
 
+const generateOdds = (num:number)=>{
+return Math.random() < num ? true : false 
+}
 
 
 

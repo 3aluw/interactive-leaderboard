@@ -123,7 +123,7 @@ return headArray
   
     let faceArray:faceType = generateFace(face);
    let headArray : headType = head ?? generateHead()
-console.log({headArray,faceArray})
+
 //generate a seed
 if(seed.length == 0){seed = Math.random().toString(36).substring(2,10)}
 
@@ -138,7 +138,6 @@ let avatarSvg =  createAvatar(openPeeps,{
 
 }).toString()
 
-const avatarEncoded:string = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(avatarSvg)  
 
 return[ avatarSvg, avatarObj]
   }
