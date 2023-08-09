@@ -110,6 +110,7 @@ const fixInitailPoints = () => {
 
 onMounted(() => {
     fixTeamsArrayLength();
+    fixInitailPoints();
 
 })
 

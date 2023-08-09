@@ -92,10 +92,12 @@ watch(() => gameStore.avatarsToChange.length, () => {
 })
 
 const scaleAvatar = (index: number) => {
-
+    const applyClasses = ['scaled-avatar-one', 'scaled-avatar-two', 'scaled-avatar-three',]
+    const selectedClass = applyClasses[Math.floor(Math.random() * 3)]
+    console.log(selectedClass)
     const avatarsList = document.querySelectorAll('.v-avatar');
-    avatarsList[index]?.classList.add('scaled-avatar-one')
-    setTimeout(() => avatarsList[index]?.classList.remove('scaled-avatar-one'), 2000)
+    avatarsList[index]?.classList.add(selectedClass)
+    setTimeout(() => avatarsList[index]?.classList.remove(selectedClass), 2000)
 
 }
 </script>
@@ -160,6 +162,6 @@ const scaleAvatar = (index: number) => {
 }
 
 .scaled-avatar-three {
-    transform: scale(1.5) rotate(80deg);
+    transform: scale(1.5) rotate(180deg);
 }
 </style>
