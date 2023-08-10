@@ -22,10 +22,10 @@
             </div>
         </TransitionGroup>
     </div>
+    <Leaderboard />
 </template>
 <script setup lang="ts">
 import { useGameStore } from '@/store/GameStore'
-import soundOne from '/sound effects/music/177301462205354.mp3'
 
 const gameStore = useGameStore()
 
@@ -169,11 +169,11 @@ const scaleAvatar = (index: number) => {
 }
 
 .scaled-avatar-one {
-    transform: scale(2) translateY(-1rem)
+    transform: scale(2) translateY(1rem)
 }
 
 .scaled-avatar-two {
-    transform: scale(1.5) translateY(-2rem);
+    transform: scale(1.5) translateY(1.2rem);
 
 }
 

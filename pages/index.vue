@@ -23,7 +23,7 @@
                             <div class="flex justify-center max-[600px]:!hidden"> <v-btn
                                     class="text-white italic rounded-xl" color="#FF2525" variant="flat" v-bind="props">start
                                     now</v-btn>
-                                <v-btn>sound</v-btn>
+
                             </div>
                         </template>
                         <v-card>
