@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts" setup>
-import { storeToRefs } from "pinia"
+
 import { useGameStore } from '@/store/GameStore'
 const gameStore = useGameStore()
 //const { avatarsToChange } = storeToRefs(gameStore)

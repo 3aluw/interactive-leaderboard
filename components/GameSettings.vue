@@ -71,7 +71,7 @@
 
 
             </v-container>
-            {{ isFormValid }}
+
         </v-form>
     </v-sheet>
 </template>

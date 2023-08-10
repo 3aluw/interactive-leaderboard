@@ -22,17 +22,19 @@
             </div>
         </TransitionGroup>
     </div>
-    <Leaderboard />
+    <v-dialog class="pb-8" v-model="showLeaderboardDialog" persistent max-width="800px">
+        <Leaderboard />
+    </v-dialog>
 </template>
 <script setup lang="ts">
 import { useGameStore } from '@/store/GameStore'
-
 const gameStore = useGameStore()
 
 
 const container = ref<HTMLInputElement | null>(null);
 let playgroundWidth: Ref<number> = ref(300);
 
+const showLeaderboardDialog = ref(true)
 
 //breakpoints
 const breakpoints = useBreakpoints({
@@ -40,7 +42,7 @@ const breakpoints = useBreakpoints({
     tablet: 768,
     // laptop: 1024,
 })
-const smallVw = breakpoints.smallerOrEqual('phone');
+//const smallVw = breakpoints.smallerOrEqual('phone');
 const midVw = breakpoints.between("phone", "tablet");
 const largeVw = breakpoints.greaterOrEqual("tablet");
 
@@ -116,6 +118,8 @@ const scaleAvatar = (index: number) => {
     setTimeout(() => avatarsList[index]?.classList.remove(selectedClass), 2000)
 
 }
+
+
 </script>
 
 <style>
