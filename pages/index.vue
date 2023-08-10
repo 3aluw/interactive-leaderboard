@@ -16,11 +16,14 @@
                         fair games</h1>
                     <p>generate an interactive / fun dashboard for your competitions and keep everyone engaged </p>
 
+
+
                     <v-dialog v-model="dialog" width="auto">
                         <template v-slot:activator="{ props }">
                             <div class="flex justify-center max-[600px]:!hidden"> <v-btn
                                     class="text-white italic rounded-xl" color="#FF2525" variant="flat" v-bind="props">start
                                     now</v-btn>
+                                <v-btn>sound</v-btn>
                             </div>
                         </template>
                         <v-card>
@@ -53,6 +56,11 @@
     </div>
 </template>
 <script setup lang="ts">
+
+import { useGameStore } from '@/store/GameStore'
+
+const gameStore = useGameStore()
+
 //show components
 const dialog: Ref<boolean> = ref(false)
 const isGameSettingFormValid = ref()

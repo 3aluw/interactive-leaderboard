@@ -117,10 +117,10 @@ if(changeInRank>0){
   //check if the team is in the top 1/4
   const topQuarter = (currentRank+1) >= (participantsNumber/4) ? true : false
 
-   if(generateOdds(changeInRank)){changeAvatar(currentRank,"happyFaces",true);pushCurrentRank()}
-   else if( topQuarter && generateOdds(0.5) ){changeAvatar(currentRank,"happyFaces",true);pushCurrentRank()}
+   if(generateOdds(changeInRank)){changeAvatar(currentRank,"happyFaces",true);pushCurrentRank();reactionSoundPlayer('happy')}
+   else if( topQuarter && generateOdds(0.5) ){changeAvatar(currentRank,"happyFaces",true);pushCurrentRank();reactionSoundPlayer('happy')}
    //sad face to the outpaced team
-   if(  generateOdds(0.05)){changeAvatar((currentRank+1),"sadFaces",true);avatarsToChange.value.push(currentRank+1)}
+   if(  generateOdds(0.05)){changeAvatar((currentRank+1),"sadFaces",true);avatarsToChange.value.push(currentRank+1);reactionSoundPlayer('sad')}
 }
 //if the team gone down 
 else if(changeInRank<0){ 
@@ -130,10 +130,10 @@ else if(changeInRank<0){
   //check if the  team is in the bottom 1/4
   const bottomQuarter = (currentRank+1) >= (participantsNumber-(participantsNumber/4)) ? true : false;
 
-   if(generateOdds(absChange)){changeAvatar(currentRank,"sadFaces",true);pushCurrentRank() ;  console.log('1')}
-   else if( bottomQuarter && generateOdds(0.7) ){changeAvatar(currentRank,"sadFaces",true);pushCurrentRank();  console.log('2')}
+   if(generateOdds(absChange)){changeAvatar(currentRank,"sadFaces",true);pushCurrentRank() ; reactionSoundPlayer('sad') }
+   else if( bottomQuarter && generateOdds(0.7) ){changeAvatar(currentRank,"sadFaces",true);pushCurrentRank(); reactionSoundPlayer('sad') }
    //happy face for the new up team
-   if(  generateOdds(0.05)){changeAvatar((currentRank-1),"happyFaces",true);avatarsToChange.value.push(currentRank-1); ;  console.log('3')}
+   if(  generateOdds(0.05)){changeAvatar((currentRank-1),"happyFaces",true);avatarsToChange.value.push(currentRank-1); reactionSoundPlayer('happy');}
   }
 
 
@@ -144,12 +144,29 @@ return Math.random() < num ? true : false
 }
 
 
+//souds manager
 
-
+const reactionSoundFn = ():(type:"final" | "happy" | "sad")=>void=>{
+  
+  let playingSound: undefined | HTMLAudioElement;
+  const soundPlayer = (type:"final" | "happy" | "sad")=>{
+    
+    if(playingSound) return;
+    playingSound = new Audio(soundsManager(type))
+    playingSound.play()
+    playingSound.addEventListener("ended", function () {
+     console.log('ended')
+    playingSound = undefined
+    })
+  }
+  return soundPlayer
+}
+const reactionSoundPlayer = reactionSoundFn()
 return {
     gameSettings, teams,changeName, changeColor,
      avatars , addATeam, changeAvatar, randomizeAll,
-     changePoints, avatarsToChange, clearAvatarsToChangeArray
+     changePoints, avatarsToChange, clearAvatarsToChangeArray,
+     reactionSoundPlayer
   };
 },
 /*

@@ -25,6 +25,8 @@
 </template>
 <script setup lang="ts">
 import { useGameStore } from '@/store/GameStore'
+import soundOne from '/sound effects/music/177301462205354.mp3'
+
 const gameStore = useGameStore()
 
 
@@ -76,9 +78,23 @@ onMounted(() => {
     playgroundWidth.value = container.value?.getBoundingClientRect().width ?? 300;
     widthsGenerator()
     window.addEventListener('resize', onResize)
-
 })
+/*
+//a function to run musics in a row
+const playMusic = ()=> {
+    let soundGenerator = () => new Audio(soundsManager('music'));
+    let sound = soundGenerator()
+    // Play the audio
+    sound.play();
+    sound.addEventListener("ended", function () {
+        console.log(" has finished playing");
 
+        // Play the next sound
+        playMusic();
+    });
+ 
+}
+*/
 const onResize = () => {
     playgroundWidth.value = container.value?.getBoundingClientRect().width ?? 300;
     widthsGenerator()
