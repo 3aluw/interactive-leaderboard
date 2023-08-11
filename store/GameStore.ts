@@ -9,7 +9,7 @@ export const useGameStore = defineStore("GameStore", () => {
 
 const gameSettings: Ref<IGameSettings> = ref(
   {
-  gameType: '',
+  gameType: 'real-time',
   initialPoints: 0,
   participantsNumber: 3,
   winAt: 10,
@@ -17,7 +17,7 @@ const gameSettings: Ref<IGameSettings> = ref(
 }
 )
 
- let teams : Ref<ITeam[]> =ref([]) 
+let teams : Ref<ITeam[]> =ref([]) 
 let avatars : Ref<IAvatar[]> = ref([])
 
 const resetGame = ()=>{

@@ -1,5 +1,5 @@
 <template>
-    <v-sheet width="1000" class="mx-auto px-4">
+    <v-sheet width="1000" max-width="100%" class="mx-auto px-4">
         <h1 class="text-center text-3xl my-2 mb-10 ">Game settings</h1>
         <v-form @submit.prevent v-model="isFormValid">
             <v-container fluid>
@@ -7,20 +7,20 @@
                     <v-col cols="12" md="4">
                         Game type:
                     </v-col>
-                    <v-radio-group v-model="gameStore.gameSettings.gameType" inline :rules="requiedRule">
-                        <v-col cols="12" md="6">
+                    <v-radio-group v-model="gameStore.gameSettings.gameType" inline :rules="requiedRule" disabled>
+                        <v-col cols="12" md="6" class="py-0">
                             <v-radio label="turn-based" value="turn-based"></v-radio></v-col>
-                        <v-col cols="12" md="6"> <v-radio label="real-time" value="real-time"
+                        <v-col cols="12" md="6" class="py-0"> <v-radio label="real-time" value="real-time"
                                 v-model="gameStore.gameSettings.gameType"></v-radio></v-col>
                     </v-radio-group>
                 </v-row>
 
 
                 <v-row>
-                    <v-col cols="6"><v-text-field v-model.number="gameStore.gameSettings.initialPoints"
+                    <v-col cols="12" sm="6"><v-text-field v-model.number="gameStore.gameSettings.initialPoints"
                             label="initial points" type="number" variant="outlined" hide-spin-buttons
                             placeholder="each team will start with...pts" :rules="pointsRules"></v-text-field></v-col>
-                    <v-col cols="6"><v-text-field v-model.number="gameStore.gameSettings.participantsNumber"
+                    <v-col cols="12" sm="6"><v-text-field v-model.number="gameStore.gameSettings.participantsNumber"
                             label="number of participants" type="number" variant="outlined"
                             :rules="pointsRules"></v-text-field>
                     </v-col>
@@ -57,13 +57,15 @@
 
 
                 <v-row class="mb-10">
-                    <v-col cols="6"> <v-tooltip activator="parent" location="top">the app will generate an avatar for every
+                    <v-col cols="12" sm="6"> <v-tooltip activator="parent" location="top">the app will generate an avatar
+                            for every
                             participant</v-tooltip><v-select :rules="requiedRule" label="Avatars"
                             v-model="gameStore.gameSettings.avatars" :items="onOffToBoolean" item-title="title"
                             item-value="value" variant="outlined">
                         </v-select></v-col>
 
-                    <v-col cols="6"> <v-tooltip activator="parent" location="top">the app will make funny sounds during the
+                    <v-col cols="12" sm="6"> <v-tooltip activator="parent" location="top">the app will make funny sounds
+                            during the
                             game 😃</v-tooltip><v-select :rules="requiedRule" label="sounds"
                             v-model="gameStore.gameSettings.sounds" :items="onOffToBoolean" item-title="title"
                             item-value="value" variant="outlined"></v-select></v-col>

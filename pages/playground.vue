@@ -29,7 +29,10 @@
 <script setup lang="ts">
 import { useGameStore } from '@/store/GameStore'
 const gameStore = useGameStore()
-
+useHead({
+    script: [{ hid: 'confetti', src: 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js', defer: true },
+    ]
+})
 
 const container = ref<HTMLInputElement | null>(null);
 let playgroundWidth: Ref<number> = ref(300);
@@ -116,7 +119,7 @@ const scaleAvatar = (index: number) => {
 
 }
 const isGameFinished = () => {
-    if (gameStore.teams[1].points === gameStore.gameSettings.winAt) showLeaderboardDialog.value = true;
+    if (gameStore.teams[0].points >= gameStore.gameSettings.winAt) showLeaderboardDialog.value = true;
 }
 const retryGame = () => {
     gameStore.resetGame();
