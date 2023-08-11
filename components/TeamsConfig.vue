@@ -70,7 +70,7 @@
 
             </v-table>
         </v-form>
-        {{ isFormValid }}
+
     </v-sheet>
 </template>
 

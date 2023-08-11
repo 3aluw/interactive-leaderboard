@@ -5,12 +5,12 @@
             <v-container fluid>
                 <v-row>
                     <v-col cols="12" md="4">
-                        Game type:
+                        Game type:<small>(coming soon)</small>
                     </v-col>
                     <v-radio-group v-model="gameStore.gameSettings.gameType" inline :rules="requiedRule" disabled>
-                        <v-col cols="12" md="6" class="py-0">
+                        <v-col cols="12" sm="6" class="py-0">
                             <v-radio label="turn-based" value="turn-based"></v-radio></v-col>
-                        <v-col cols="12" md="6" class="py-0"> <v-radio label="real-time" value="real-time"
+                        <v-col cols="12" sm="6" class="py-0"> <v-radio label="real-time" value="real-time"
                                 v-model="gameStore.gameSettings.gameType"></v-radio></v-col>
                     </v-radio-group>
                 </v-row>

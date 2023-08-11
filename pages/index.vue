@@ -35,14 +35,15 @@
                                 <TeamsConfig v-if="step == 2"
                                     @form-validation="(value) => isTeamsConfigFormValid = value" />
                             </v-fade-transition>
-                            <div class="flex justify-center gap-4 dialog-nav-btns mb-2 ">
+                            <div class="flex justify-center gap-4 dialog-nav-btns  py-4 ">
 
                                 <v-btn prepend-icon="mdi:mdi-arrow-left" variant="outlined" color="balck"
                                     :disabled="step == 1" @click="step -= 1">BACK</v-btn>
                                 <v-btn append-icon="$next" variant="outlined" color="balck" v-if="step === 1"
                                     @click="step += 1" :disabled="isGameSettingFormValid !== true">NEXT</v-btn>
                                 <NuxtLink to="/playground"> <v-btn append-icon="$next" variant="flat" color="green-darken-2"
-                                        v-if="step == 2">Finnish</v-btn></NuxtLink>
+                                        v-if="step == 2" :disabled="!isTeamsConfigFormValid">Finnish</v-btn>
+                                </NuxtLink>
 
                             </div>
 
