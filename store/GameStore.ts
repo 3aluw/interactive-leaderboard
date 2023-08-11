@@ -20,6 +20,11 @@ const gameSettings: Ref<IGameSettings> = ref(
  let teams : Ref<ITeam[]> =ref([]) 
 let avatars : Ref<IAvatar[]> = ref([])
 
+const resetGame = ()=>{
+  teams.value.forEach((team)=>{team.points = gameSettings.value.initialPoints})
+  teams.value.forEach((el,index)=>{changeAvatar(index,'normalFaces',true)})
+
+}
 //start form 
 const generateATeam = (): ITeam => {
   const [svg, avatarObj] = avatarGenerator("", 'normalFaces')
@@ -49,7 +54,6 @@ const changeColor = (index:number)=>{
 }
 
 
-
 const assignAvatar = (index: number, avatarObj: IAvatar)=>{
   avatars.value[index] = avatarObj
 }
@@ -63,14 +67,14 @@ switch(property){
 }
 
 const changeAvatar=(index:number, face:'normalFaces'| 'happyFaces' | 'sadFaces' = "normalFaces", isSameHead : boolean)=>{
-  const {seed,head}=avatars.value[index];
- if(!isSameHead) {
 
+ if(!isSameHead) {
   const [svg, avatarObj] = avatarGenerator('', face)
 avatars.value[index] = avatarObj;
 const teamIndex: number =  teams.value.findIndex((team)=> team.id === index )
 teams.value[teamIndex].avatar = svg
-} else{
+} 
+else{
  const avatarIndex: number =  teams.value[index].id;
  const {seed,head}=avatars.value[avatarIndex];
 const [svg, avatarObj] = avatarGenerator(seed, face,head)
@@ -162,11 +166,14 @@ const reactionSoundFn = ():(type:"final" | "happy" | "sad")=>void=>{
   return soundPlayer
 }
 const reactionSoundPlayer = reactionSoundFn()
+
+
+
 return {
     gameSettings, teams,changeName, changeColor,
      avatars , addATeam, changeAvatar, randomizeAll,
      changePoints, avatarsToChange, clearAvatarsToChangeArray,
-     reactionSoundPlayer
+     reactionSoundPlayer, resetGame
   };
 },
 /*

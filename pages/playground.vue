@@ -14,7 +14,7 @@
                 </div>
                 <div class="btn-container flex gap-1 flex-col">
                     <div class="plus-btns">
-                        <buttons :width="widths[index]" :index=index v-if="widths.length" />
+                        <buttons :width="widths[index]" :index=index v-if="widths.length" @click="isGameFinished" />
                     </div>
 
                 </div>
@@ -23,7 +23,7 @@
         </TransitionGroup>
     </div>
     <v-dialog class="pb-8" v-model="showLeaderboardDialog" persistent max-width="800px">
-        <Leaderboard />
+        <Leaderboard @retry-game="retryGame" :size="'dialog'" />
     </v-dialog>
 </template>
 <script setup lang="ts">
@@ -34,7 +34,7 @@ const gameStore = useGameStore()
 const container = ref<HTMLInputElement | null>(null);
 let playgroundWidth: Ref<number> = ref(300);
 
-const showLeaderboardDialog = ref(true)
+const showLeaderboardDialog = ref(false)
 
 //breakpoints
 const breakpoints = useBreakpoints({
@@ -45,8 +45,6 @@ const breakpoints = useBreakpoints({
 //const smallVw = breakpoints.smallerOrEqual('phone');
 const midVw = breakpoints.between("phone", "tablet");
 const largeVw = breakpoints.greaterOrEqual("tablet");
-
-
 
 const widths: Ref<number[]> = ref([])
 
@@ -81,6 +79,7 @@ onMounted(() => {
     widthsGenerator()
     window.addEventListener('resize', onResize)
 })
+
 /*
 //a function to run musics in a row
 const playMusic = ()=> {
@@ -103,8 +102,6 @@ const onResize = () => {
 }
 
 watch(() => gameStore.avatarsToChange.length, () => {
-
-    console.log(gameStore.avatarsToChange)
     gameStore.avatarsToChange.forEach((index) => { scaleAvatar(index) })
     gameStore.clearAvatarsToChangeArray()
 })
@@ -118,7 +115,13 @@ const scaleAvatar = (index: number) => {
     setTimeout(() => avatarsList[index]?.classList.remove(selectedClass), 2000)
 
 }
-
+const isGameFinished = () => {
+    if (gameStore.teams[1].points === gameStore.gameSettings.winAt) showLeaderboardDialog.value = true;
+}
+const retryGame = () => {
+    gameStore.resetGame();
+    showLeaderboardDialog.value = false;
+}
 
 </script>
 
