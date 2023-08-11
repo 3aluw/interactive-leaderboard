@@ -119,7 +119,10 @@ const scaleAvatar = (index: number) => {
 
 }
 const isGameFinished = () => {
-    if (gameStore.teams[0].points >= gameStore.gameSettings.winAt) showLeaderboardDialog.value = true;
+    if (gameStore.teams[0].points >= gameStore.gameSettings.winAt) {
+        showLeaderboardDialog.value = true;
+        gameStore.reactionSoundPlayer('final')
+    }
 }
 const retryGame = () => {
     gameStore.resetGame();
