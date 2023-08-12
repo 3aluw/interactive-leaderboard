@@ -1,5 +1,5 @@
 <template>
-    <v-sheet width="1000" class="mx-auto px-4">
+    <v-sheet width="1000" max-width="130%" class="mx-auto px-4">
         <h1 class="text-center text-3xl my-2 mb-10 ">Game settings</h1>
         <v-form v-model="isFormValid">
             <v-table fixed-header height="300px">

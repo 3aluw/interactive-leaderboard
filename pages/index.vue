@@ -2,12 +2,12 @@
     <div class="global-container w-full">
         <nav class="flex px-4 py-6 justify-around">
             <NuxtLink><v-btn variant="plain">How it works</v-btn></NuxtLink>
-            <v-btn variant="plain">start now</v-btn>
+            <NuxtLink> <v-btn variant="plain">start now</v-btn></NuxtLink>
             <NuxtLink><v-btn variant="plain">support</v-btn>
             </NuxtLink>
         </nav>
-        <main class="flex gap-20 align-center justify-center">
-            <div class="main-left">
+        <main class="flex gap-12 align-center justify-center max-[600px]:!gap-0">
+            <div class="main-left max-[600px]:!hidden">
                 <img src="boys.png" alt="a picture of happy kids">
             </div>
             <div class="main-right ">
@@ -15,18 +15,15 @@
                     <h1>Create fun
                         fair games</h1>
                     <p>generate an interactive / fun dashboard for your competitions and keep everyone engaged </p>
-
-
-
                     <v-dialog v-model="dialog" width="auto">
                         <template v-slot:activator="{ props }">
-                            <div class="flex justify-center max-[600px]:!hidden"> <v-btn
-                                    class="text-white italic rounded-xl" color="#FF2525" variant="flat" v-bind="props">start
+                            <div class="flex justify-center "> <v-btn class="text-white italic rounded-xl" color="#FF2525"
+                                    variant="flat" v-bind="props">start
                                     now</v-btn>
 
                             </div>
                         </template>
-                        <v-card>
+                        <v-card class="overflow-scroll">
                             <v-fade-transition :hideOnLeave=true>
                                 <GameSettings v-if="step == 1"
                                     @form-validation="(value) => isGameSettingFormValid = value" />
@@ -85,9 +82,8 @@ nav {
 
 nav>a>.v-btn {
     font-family: Inter;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-style: italic;
-    font-weight: 700;
 }
 
 nav>a>.v-btn:hover {
@@ -96,11 +92,15 @@ nav>a>.v-btn:hover {
 
 main {
     max-height: calc(100vh - 5.25rem);
+    overflow: hidden;
 }
 
 .main-left {
-    display: inline-block;
-    height: calc(100vh - 5.25rem);
+    display: flex;
+    align-items: center;
+    max-height: 100%;
+    /* height: calc(100vh - 5.25rem); */
+    min-height: 500px;
 }
 
 img {
@@ -127,7 +127,7 @@ img {
 
 
 .main-right>.content-cont {
-    padding-inline: 20%;
+    padding-inline: 10%;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -135,7 +135,7 @@ img {
 
 .main-right>div>h1 {
     font-family: Bubblegum Sans;
-    font-size: 4.5rem;
+    font-size: 3rem;
     color: #FF3636;
     font-weight: 600;
     line-height: normal;
@@ -166,5 +166,20 @@ img {
 
 .dialog-nav-btns {
     background: #FFF9B8;
+}
+
+@media only screen and (max-width: 670px) {
+    .main-right {
+        background: none;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    nav {
+        flex-direction: column;
+        height: auto;
+        align-items: center;
+    }
+
 }
 </style>
