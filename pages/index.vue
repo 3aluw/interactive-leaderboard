@@ -2,8 +2,8 @@
     <div class="global-container w-full">
         <nav class="flex px-4 py-6 justify-around">
             <NuxtLink><v-btn variant="plain">How it works</v-btn></NuxtLink>
-            <NuxtLink> <v-btn variant="plain">start now</v-btn></NuxtLink>
-            <NuxtLink><v-btn variant="plain">support</v-btn>
+            <NuxtLink> <v-btn variant="plain" @click="dialog = true">start now</v-btn></NuxtLink>
+            <NuxtLink to="https://github.com/3aluw/interactive-leaderboard"><v-btn variant="plain">github</v-btn>
             </NuxtLink>
         </nav>
         <main class="flex gap-12 align-center justify-center max-[600px]:!gap-0">
