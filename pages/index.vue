@@ -8,7 +8,7 @@
         </nav>
         <main class="flex gap-12 align-center justify-center max-[600px]:!gap-0">
             <div class="main-left max-[600px]:!hidden">
-                <img src="boys.png" alt="a picture of happy kids">
+                <img src="/boys.png" alt="a picture of happy kids">
             </div>
             <div class="main-right ">
                 <div class="content-cont items-center">
