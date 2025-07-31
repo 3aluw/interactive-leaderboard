@@ -191,6 +191,6 @@ const retryGame = () => {
 }
 
 .scaled-avatar-three {
-    transform: scale(1.5) rotate(180deg);
+    transform: scale(1.5) rotate(45deg);
 }
 </style>
