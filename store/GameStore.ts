@@ -152,7 +152,6 @@ return Math.random() < num ? true : false
 
 
 //sounds manager
-
 const reactionSoundFn = ():(type:"final" | "happy" | "sad")=>void=>{
   let playingSound: undefined | HTMLAudioElement;
   const soundPlayer = (type:"final" | "happy" | "sad")=>{
@@ -169,12 +168,34 @@ const reactionSoundFn = ():(type:"final" | "happy" | "sad")=>void=>{
 const reactionSoundPlayer = reactionSoundFn()
 
 
+//music manager
+
+const toggleMusicFn =():(toggleTo?: 'on'|'off',type?:"before"|"music")=>undefined | HTMLAudioElement =>{
+   let playingMusic: undefined | HTMLAudioElement;
+
+   const soundPlayer = (toggleTo?: 'on'|'off', type?:"before"|"music")=>{
+    if(!toggleTo || !type) return playingMusic
+    if(toggleTo === "off") {
+      playingMusic?.pause()
+      playingMusic = undefined
+    return
+    }
+    playingMusic = new Audio(soundsManager(type))
+    playingMusic.loop = true; 
+    playingMusic.volume = type === 'before'? 1 : 0.7
+    playingMusic.play()
+    return playingMusic
+}
+return soundPlayer
+}
+
+const toggleMusic = toggleMusicFn()
 
 return {
     gameSettings, teams,changeName, changeColor,
      avatars , addATeam, changeAvatar, randomizeAll,
      changePoints, avatarsToChange, clearAvatarsToChangeArray,
-     reactionSoundPlayer, resetGame
+     reactionSoundPlayer,toggleMusic, resetGame
   };
 },
 /*
