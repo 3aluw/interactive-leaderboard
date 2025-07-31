@@ -80,14 +80,20 @@ const widthsGenerator = () => {
 onMounted(() => {
     playgroundWidth.value = container.value?.getBoundingClientRect().width ?? 300;
     widthsGenerator()
-    window.addEventListener('resize', onResize)
+    window.addEventListener('resize', onResize);
+    manageMusic()
+})
+//stop music on leave
+onUnmounted(()=>{
+    gameStore.toggleMusic()
 })
 
-const manageMusic = ()=>{
-     if(gameStore.gameSettings.music){
+const manageMusic = () => {
+    if (gameStore.gameSettings.music) {
+        console.log(50);
         gameStore.toggleMusic()
-        gameStore.toggleMusic("music") 
-     }
+        gameStore.toggleMusic("music")
+    }
 }
 
 const onResize = () => {
