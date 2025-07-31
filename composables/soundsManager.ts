@@ -11,14 +11,14 @@ const soundSrcs = {
       "178801464188989.mp3",
       "179011464199145.mp3",
       "183281464630669.mp3",
-      "183301464630669.mp3",
       "183311464630670.mp3",
-      "183321464630670.mp3",
-      "183341464630671.mp3",
       "18843CartoonAccentDIGIJ06-16.mp3",
       "18860CartoonLaughDIGIJ04-41.mp3",
       "18877LaughSillyMaleClosPE130601.mp3",
       "18887ToyDIGIJ08-18.mp3",
+      "evil-laugh-89423",
+      "happy-huming-6202",
+      "happy-noisesmp3-14568",
       "Aliens-Monsters-01.mp3"
   ],
   "sad": [
@@ -38,14 +38,17 @@ const soundSrcs = {
       "18954CrowdLaughterDIGIVI1-23.mp3",
       "19235GaspingStrainingToPE132001.mp3",
       "19236HumanBabyDIGII01-01.mp3",
-      "Aliens-Monsters-12.mp3"
+      "Aliens-Monsters-12.mp3",
+      "kid-screaming-329317"
   ],
   "music": [
       "177291462205353.mp3",
       "177301462205354.mp3",
       "177311462205355.mp3",
       "177461462212095.mp3",
-      "March-of-the-ducklings.mp3"
+      "March-of-the-ducklings.mp3",
+      "game-show-suspense.mp3",
+      "game-show-suspense"
   ]
 }
 function getRandomAudio(mode:  keyof typeof soundSrcs ) {
