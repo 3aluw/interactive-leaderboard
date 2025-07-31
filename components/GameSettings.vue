@@ -91,7 +91,7 @@ const gameStore = useGameStore()
 const emit = defineEmits(['formValidation'])
 
 onMounted(()=>{
-   if(!gameStore.toggleMusic() && gameStore.gameSettings.music) gameStore.toggleMusic('on',"before") 
+   gameStore.toggleMusic("before") 
 })
 
 const onOffToBoolean = ref([
@@ -123,7 +123,7 @@ const deleteButton = (index: number) => {
 }
 
 const toggleMusic = (play:boolean) => {
-    play === true ? gameStore.toggleMusic('on',"before") : gameStore.toggleMusic('off',"before") 
+    play === true ? gameStore.toggleMusic("before") : gameStore.toggleMusic() 
 }
 const isFormValid = ref()
 watch(isFormValid, () => {
