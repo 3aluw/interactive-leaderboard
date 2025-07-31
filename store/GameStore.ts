@@ -14,6 +14,9 @@ const gameSettings: Ref<IGameSettings> = ref(
   participantsNumber: 3,
   winAt: 10,
   buttons: [2, 5],
+  avatars:true,
+  sounds: true,
+  music: true,
 }
 )
 
@@ -148,10 +151,9 @@ return Math.random() < num ? true : false
 }
 
 
-//souds manager
+//sounds manager
 
 const reactionSoundFn = ():(type:"final" | "happy" | "sad")=>void=>{
-  
   let playingSound: undefined | HTMLAudioElement;
   const soundPlayer = (type:"final" | "happy" | "sad")=>{
     
@@ -159,7 +161,6 @@ const reactionSoundFn = ():(type:"final" | "happy" | "sad")=>void=>{
     playingSound = new Audio(soundsManager(type))
     playingSound.play()
     playingSound.addEventListener("ended", function () {
-     console.log('ended')
     playingSound = undefined
     })
   }

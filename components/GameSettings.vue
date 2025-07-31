@@ -29,18 +29,19 @@
                         <p>win at</p> <v-tooltip text="points required for a participant to win 🎉" location="bottom">
                             <template v-slot:activator="{ props }"><v-icon v-bind="props" size="x-small"
                                     icon="mdi-information-outline"></v-icon></template></v-tooltip> :<v-slider
-                            v-model="gameStore.gameSettings.winAt" class="ml-8" :max="500" :min="10" thumb-label :step="5"
-                            hide-details></v-slider>
+                            v-model="gameStore.gameSettings.winAt" class="ml-8" :max="500" :min="10" thumb-label
+                            :step="5" hide-details></v-slider>
                     </v-col>
                 </v-row>
 
                 <v-row class="items-center">
-                    <p>buttons <v-tooltip text="add buttons to use latter to increase or decrease points for participants"
+                    <p>buttons <v-tooltip
+                            text="add buttons to use latter to increase or decrease points for participants"
                             location="bottom">
                             <template v-slot:activator="{ props }"><v-icon v-bind="props" size="x-small"
                                     icon="mdi-information-outline"></v-icon></template></v-tooltip> : </p>
 
-                    <v-col cols="3" sm='1' v-for="(btn, index) in  gameStore.gameSettings.buttons ">
+                    <v-col cols="3" sm='1' v-for="(btn, index) in gameStore.gameSettings.buttons">
                         <v-hover v-slot="{ isHovering, props }"><v-btn v-bind="props" @click="deleteButton(index)"
                                 :class="{ '!bg-red-500': isHovering && gameStore.gameSettings.buttons.length > 1 }">
                                 <p v-if="!isHovering || gameStore.gameSettings.buttons.length === 1">{{ btn
@@ -50,24 +51,27 @@
                             </v-btn> </v-hover></v-col>
                     <v-col cols="3" sm="1"> <v-text-field v-model.number="newButton" @keyup.enter="addButton"
                             v-if="gameStore.gameSettings.buttons.length < 5" :rules="newButtonRules" type="number"
-                            density="compact" placeholder='...' class="entry-btn font-mono " hide-details></v-text-field>
+                            density="compact" placeholder='...' class="entry-btn font-mono "
+                            hide-details></v-text-field>
                         <p class="absolute pl-1 text-red-500 text-xs">{{ newButtonValidation }} </p>
                     </v-col>
                 </v-row>
 
 
                 <v-row class="mb-10">
-                    <v-col cols="12" sm="6"> <v-tooltip activator="parent" location="top">the app will generate an avatar
-                            for every
-                            participant</v-tooltip><v-select :rules="requiedRule" label="Avatars"
+                    <v-col cols="12" sm="4"> <v-tooltip activator="parent" location="top">generate an  avatar for every participant</v-tooltip><v-select :rules="requiedRule" label="Avatars"
                             v-model="gameStore.gameSettings.avatars" :items="onOffToBoolean" item-title="title"
                             item-value="value" variant="outlined">
                         </v-select></v-col>
 
-                    <v-col cols="12" sm="6"> <v-tooltip activator="parent" location="top">the app will make funny sounds
-                            during the
-                            game 😃</v-tooltip><v-select :rules="requiedRule" label="sounds"
+                    <v-col cols="12" sm="4"> <v-tooltip activator="parent" location="top"> play sounds
+                            during the game
+                            😃</v-tooltip><v-select :rules="requiedRule" label="sounds"
                             v-model="gameStore.gameSettings.sounds" :items="onOffToBoolean" item-title="title"
+                            item-value="value" variant="outlined"></v-select></v-col>
+                    <v-col cols="12" sm="4"> <v-tooltip activator="parent" location="top">play music during the
+                            game</v-tooltip><v-select :rules="requiedRule" label="sounds"
+                            v-model="gameStore.gameSettings.music" :items="onOffToBoolean" item-title="title"
                             item-value="value" variant="outlined"></v-select></v-col>
                 </v-row>
 
@@ -98,6 +102,9 @@ const gameSttings: Ref<IGameSettings> = ref({
     participantsNumber: 3,
     winAt: 10,
     buttons: [2, 5],
+    avatars: true,
+    sounds: true,
+    music: true,
 })
 
 const newButton = ref();
