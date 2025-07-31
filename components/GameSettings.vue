@@ -29,7 +29,7 @@
                         <p>win at</p> <v-tooltip text="points required for a participant to win 🎉" location="bottom">
                             <template v-slot:activator="{ props }"><v-icon v-bind="props" size="x-small"
                                     icon="mdi-information-outline"></v-icon></template></v-tooltip> :<v-slider
-                            v-model="gameStore.gameSettings.winAt" class="ml-8" :max="500" :min="10" thumb-label
+                            v-model="gameStore.gameSettings.winAt" class="ml-8" :max="150" :min="10" thumb-label
                             :step="5" hide-details></v-slider>
                     </v-col>
                 </v-row>
@@ -59,7 +59,8 @@
 
 
                 <v-row class="mb-10">
-                    <v-col cols="12" sm="4"> <v-tooltip activator="parent" location="top">generate an  avatar for every participant</v-tooltip><v-select :rules="requiedRule" label="Avatars"
+                    <v-col cols="12" sm="4"> <v-tooltip activator="parent" location="top">generate an avatar for every
+                            participant</v-tooltip><v-select :rules="requiedRule" label="Avatars"
                             v-model="gameStore.gameSettings.avatars" :items="onOffToBoolean" item-title="title"
                             item-value="value" variant="outlined">
                         </v-select></v-col>
@@ -69,10 +70,11 @@
                             😃</v-tooltip><v-select :rules="requiedRule" label="sounds"
                             v-model="gameStore.gameSettings.sounds" :items="onOffToBoolean" item-title="title"
                             item-value="value" variant="outlined"></v-select></v-col>
+
                     <v-col cols="12" sm="4"> <v-tooltip activator="parent" location="top">play music during the
-                            game</v-tooltip><v-select :rules="requiedRule" label="sounds"
+                            game</v-tooltip><v-select  :rules="requiedRule" label="music"
                             v-model="gameStore.gameSettings.music" :items="onOffToBoolean" item-title="title"
-                            item-value="value" variant="outlined"></v-select></v-col>
+                            item-value="value" variant="outlined" @update:modelValue="toggleMusic($event)" ></v-select></v-col>
                 </v-row>
 
 
@@ -88,7 +90,9 @@ import { IGameSettings } from 'store/interfaces'
 const gameStore = useGameStore()
 const emit = defineEmits(['formValidation'])
 
-
+onMounted(()=>{
+   if(!gameStore.toggleMusic() && gameStore.gameSettings.music) gameStore.toggleMusic('on',"before") 
+})
 
 const onOffToBoolean = ref([
     { title: "on", value: true, },
@@ -118,7 +122,9 @@ const deleteButton = (index: number) => {
     if (gameStore.gameSettings.buttons.length > 1) gameStore.gameSettings.buttons.splice(index, 1)
 }
 
-
+const toggleMusic = (play:boolean) => {
+    play === true ? gameStore.toggleMusic('on',"before") : gameStore.toggleMusic('off',"before") 
+}
 const isFormValid = ref()
 watch(isFormValid, () => {
     emit('formValidation', isFormValid.value)
