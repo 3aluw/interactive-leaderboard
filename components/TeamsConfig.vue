@@ -59,18 +59,15 @@
                             </v-avatar>
                         </td>
 
-                        <td> <v-text-field v-model="team.name" :rules="nameRule" variant="underlined">
+                        <td> <v-text-field v-model.trim="team.name" :rules="nameRule" variant="underlined">
                                 <v-icon @click="gameStore.changeName(index), arrowRotator($event.target)" icon="mdi-cached"
                                     color="black" class="mr-4  arrow-icon">
                                 </v-icon></v-text-field></td>
-
                     </tr>
 
                 </tbody>
-
             </v-table>
         </v-form>
-
     </v-sheet>
 </template>
 
@@ -84,11 +81,11 @@ watch(isFormValid, () => {
 })
 
 const fixTeamsArrayLength = () => {
-    //do we need to addteams of delete teams
+    //do we need to add teams of delete teams
     let numberOfParticipants = gameStore.gameSettings.participantsNumber
-    let registredTeams = gameStore.teams.length
-    let neededNewTeams = numberOfParticipants - registredTeams
-    //number of registred teams is less than participants number (we need to add new teams)
+    let registeredTeams = gameStore.teams.length
+    let neededNewTeams = numberOfParticipants - registeredTeams
+    //number of registered teams is less than participants number (we need to add new teams)
     if (neededNewTeams >= 0) {
         let i = 1;
         while (i <= neededNewTeams) {
@@ -96,22 +93,22 @@ const fixTeamsArrayLength = () => {
             i++
         }
     }
-    //number of registred teams is more than participants number (we need to delete teams)
+    //number of registered teams is more than participants number (we need to delete teams)
     else {
         gameStore.teams.splice(neededNewTeams, -neededNewTeams)
     }
 
 }
 
-const fixInitailPoints = () => {
+const fixInitialPoints = () => {
     gameStore.teams.forEach((team) => team.points = gameStore.gameSettings.initialPoints)
 }
 
 
 onMounted(() => {
     fixTeamsArrayLength();
-    fixInitailPoints();
-
+    fixInitialPoints();
+    if(gameStore.teams.every((team)=>!team.name))gameStore.randomizeAll('names')
 })
 
 
@@ -129,8 +126,7 @@ const arrowRotator = (element: Element) => {
 
 const nameRule = [
     (value: string) => {
-
-        if (value.length >= 3 && value.length <= 10) return true
+        if (value.trim().length >= 3 && value.length <= 10) return true
 
         return '11> chars >2'
     }

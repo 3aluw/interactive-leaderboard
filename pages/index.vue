@@ -38,9 +38,9 @@
                                     :disabled="step == 1" @click="step -= 1">BACK</v-btn>
                                 <v-btn append-icon="$next" variant="outlined" color="balck" v-if="step === 1"
                                     @click="step += 1" :disabled="isGameSettingFormValid !== true">NEXT</v-btn>
-                                <NuxtLink to="/playground"> <v-btn append-icon="$next" variant="flat" color="green-darken-2"
+                   <v-btn to="/playground" append-icon="$next" variant="flat" color="green-darken-2"
                                         v-if="step == 2" :disabled="!isTeamsConfigFormValid">Finnish</v-btn>
-                                </NuxtLink>
+
 
                             </div>
 
