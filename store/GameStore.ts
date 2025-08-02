@@ -153,21 +153,48 @@ export const useGameStore = defineStore("GameStore", () => {
 
 
   //sounds manager
-  const reactionSoundFn = (): (type: "final" | "happy" | "sad") => void => {
-    let playingSound: undefined | HTMLAudioElement;
-    const soundPlayer = (type: "final" | "happy" | "sad") => {
-      if (!gameSettings.value.sounds) return;
-      if (playingSound) {
-        playingSound?.pause()
-        playingSound = undefined
-      }
-      playingSound = new Audio(soundsManager(type))
-      playingSound.play()
- 
-    }
-    return soundPlayer
+const reactionSoundFn = (): (type: "final" | "happy" | "sad") => Promise<void> => {
+  if (typeof window === "undefined") {
+    // SSR: return a no-op function
+    return async () => {}
   }
-  const reactionSoundPlayer = reactionSoundFn()
+
+  const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)()
+  const gainNode = audioCtx.createGain()
+  gainNode.connect(audioCtx.destination)
+  let playingSource: AudioBufferSourceNode | undefined
+
+  const soundPlayer = async (type: "final" | "happy" | "sad") => {
+    if (!gameSettings.value.sounds) return
+
+    if (audioCtx.state === "suspended") {
+      await audioCtx.resume()
+    }
+
+    if (playingSource) {
+      playingSource.stop()
+      playingSource.disconnect()
+      playingSource = undefined
+    }
+    gainNode.gain.value = 2.5
+    const response = await fetch(soundsManager(type))
+    const arrayBuffer = await response.arrayBuffer()
+    const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
+
+    const source = audioCtx.createBufferSource()
+    source.buffer = audioBuffer
+    source.connect(gainNode)
+    source.start()
+
+    playingSource = source
+  }
+
+  return soundPlayer
+}
+
+const reactionSoundPlayer = reactionSoundFn()
+
+
 
 
   //music manager
@@ -183,7 +210,7 @@ export const useGameStore = defineStore("GameStore", () => {
       }
       playingMusic = new Audio(soundsManager(type))
       playingMusic.loop = true;
-      playingMusic.volume = type === 'before' ? 1 : 0.7
+      playingMusic.volume = type === 'music' ? 0.7 : 1
       playingMusic.play()
 
     }

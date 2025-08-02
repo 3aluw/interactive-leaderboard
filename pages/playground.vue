@@ -90,7 +90,6 @@ onUnmounted(()=>{
 
 const manageMusic = () => {
     if (gameStore.gameSettings.music) {
-        console.log(50);
         gameStore.toggleMusic()
         gameStore.toggleMusic("music")
     }
