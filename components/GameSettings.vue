@@ -91,6 +91,7 @@ const gameStore = useGameStore()
 const emit = defineEmits(['formValidation'])
 
 onMounted(() => {
+    gameStore.toggleMusic()
     gameStore.toggleMusic("before")
 })
 
@@ -119,7 +120,6 @@ const isFormValid = ref()
 const formRef = ref()
 
 const forceFormValidation = ()=>{
-    console.log(5);
     formRef.value?.validate()
 }
 
