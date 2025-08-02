@@ -12,13 +12,17 @@ const soundSrcs = {
         "183281464630669.mp3",
         "183311464630670.mp3",
         "18843CartoonAccentDIGIJ06-16.mp3",
-        "18860CartoonLaughDIGIJ04-41.mp3",
+        "18860CartoonLaugh_DIGIJ04-41.mp3",
         "18877LaughSillyMaleClosPE130601.mp3",
         "18887ToyDIGIJ08-18.mp3",
         "evil-laugh-89423.mp3",
         "happy-huming-6202.mp3",
         "happy-noisesmp3-14568.mp3",
-        "Aliens-Monsters-01.mp3"
+        "Aliens-Monsters-01.mp3",
+        "cartoon-laugh-voice",
+        "cartoon-voice-laugh-1.mp3",
+        "funny-squeaky-toy.mp3",
+        "kiss.mp3"
     ],
     "sad": [
         "139141459871785.mp3",
@@ -38,7 +42,11 @@ const soundSrcs = {
         "19235GaspingStrainingToPE132001.mp3",
         "19236HumanBabyDIGII01-01.mp3",
         "Aliens-Monsters-12.mp3",
-        "kid-screaming-329317"
+        "kid-screaming-329317",
+        "cartoon-laugh-voice.mp3",
+        "fart.mp3",
+        "whistle.mp3",
+        "sad-trombone.mp3"
     ],
     "music": [
         "177291462205353.mp3",
