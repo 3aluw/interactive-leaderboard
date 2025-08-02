@@ -1,7 +1,7 @@
 <template>
     <v-sheet width="1000" max-width="100%" class="mx-auto px-4">
         <h1 class="text-center text-3xl my-2 mb-10 ">Game settings</h1>
-        <v-form @submit.prevent v-model="isFormValid">
+        <v-form @submit.prevent ref="formRef" v-model="isFormValid" >
             <v-container fluid>
                 <v-row>
                     <v-col cols="12" md="4">
@@ -19,17 +19,17 @@
                 <v-row>
                     <v-col cols="12" sm="6"><v-text-field v-model.number="gameStore.gameSettings.initialPoints"
                             label="initial points" type="number" variant="outlined" hide-spin-buttons
-                            placeholder="each team will start with...pts" :rules="pointsRules"></v-text-field></v-col>
+                            placeholder="each team will start with...pts" @input="forceFormValidation" :rules="initialPointsRules"></v-text-field></v-col>
                     <v-col cols="12" sm="6"><v-text-field v-model.number="gameStore.gameSettings.participantsNumber"
                             label="number of participants" type="number" variant="outlined"
-                            :rules="pointsRules"></v-text-field>
+                            :rules="nOfParticipants"></v-text-field>
                     </v-col>
                     <v-col cols="12 flex flex-inline gap-1 items-center">
 
                         <p>win at</p> <v-tooltip text="points required for a participant to win 🎉" location="bottom">
                             <template v-slot:activator="{ props }"><v-icon v-bind="props" size="x-small"
                                     icon="mdi-information-outline"></v-icon></template></v-tooltip> :<v-slider
-                            v-model="gameStore.gameSettings.winAt" class="ml-8" :max="150" :min="10" thumb-label
+                            v-model="gameStore.gameSettings.winAt" @end="forceFormValidation" class="ml-8" :max="150" :min="10" thumb-label
                             :step="5" hide-details></v-slider>
                     </v-col>
                 </v-row>
@@ -40,7 +40,6 @@
                             location="bottom">
                             <template v-slot:activator="{ props }"><v-icon v-bind="props" size="x-small"
                                     icon="mdi-information-outline"></v-icon></template></v-tooltip> : </p>
-
                     <v-col cols="3" sm='1' v-for="(btn, index) in gameStore.gameSettings.buttons">
                         <v-hover v-slot="{ isHovering, props }"><v-btn v-bind="props" @click="deleteButton(index)"
                                 :class="{ '!bg-red-500': isHovering && gameStore.gameSettings.buttons.length > 1 }">
@@ -50,9 +49,9 @@
                                     mdi-close-circle-outline" color="white" size="large"></v-icon>
                             </v-btn> </v-hover></v-col>
                     <v-col cols="3" sm="1"> <v-text-field v-model.number="newButton" @keyup.enter="addButton"
-                            v-if="gameStore.gameSettings.buttons.length < 5" :rules="newButtonRules" type="number"
-                            density="compact" placeholder='...' class="entry-btn font-mono "
-                            hide-details></v-text-field>
+                            @update:focused="addButton" v-if="gameStore.gameSettings.buttons.length < 5"
+                            :rules="newButtonRules" type="number" density="compact" placeholder='...'
+                            class="entry-btn font-mono " hide-details></v-text-field>
                         <p class="absolute pl-1 text-red-500 text-xs">{{ newButtonValidation }} </p>
                     </v-col>
                 </v-row>
@@ -72,9 +71,10 @@
                             item-value="value" variant="outlined"></v-select></v-col>
 
                     <v-col cols="12" sm="4"> <v-tooltip activator="parent" location="top">play music during the
-                            game</v-tooltip><v-select  :rules="requiedRule" label="music"
+                            game</v-tooltip><v-select :rules="requiedRule" label="music"
                             v-model="gameStore.gameSettings.music" :items="onOffToBoolean" item-title="title"
-                            item-value="value" variant="outlined" @update:modelValue="toggleMusic($event)" ></v-select></v-col>
+                            item-value="value" variant="outlined"
+                            @update:modelValue="toggleMusic($event)"></v-select></v-col>
                 </v-row>
 
 
@@ -90,8 +90,8 @@ import { IGameSettings } from 'store/interfaces'
 const gameStore = useGameStore()
 const emit = defineEmits(['formValidation'])
 
-onMounted(()=>{
-   gameStore.toggleMusic("before") 
+onMounted(() => {
+    gameStore.toggleMusic("before")
 })
 
 const onOffToBoolean = ref([
@@ -100,45 +100,49 @@ const onOffToBoolean = ref([
 
 ])
 
-const gameSttings: Ref<IGameSettings> = ref({
-    gameType: '',
-    initialPoints: 0,
-    participantsNumber: 3,
-    winAt: 10,
-    buttons: [2, 5],
-    avatars: true,
-    sounds: true,
-    music: true,
-})
-
 const newButton = ref();
 const newButtonValidation = ref()
 
 const addButton = () => {
     if (Number.isInteger(newButton.value) && newButtonRules[0](newButton.value) === true) gameStore.gameSettings.buttons.push(newButton.value)
+    newButton.value = ''
 }
 
 const deleteButton = (index: number) => {
     if (gameStore.gameSettings.buttons.length > 1) gameStore.gameSettings.buttons.splice(index, 1)
 }
 
-const toggleMusic = (play:boolean) => {
-    play === true ? gameStore.toggleMusic("before") : gameStore.toggleMusic() 
+const toggleMusic = (play: boolean) => {
+    play === true ? gameStore.toggleMusic("before") : gameStore.toggleMusic()
 }
 const isFormValid = ref()
+const formRef = ref()
+
+const forceFormValidation = ()=>{
+    console.log(5);
+    formRef.value?.validate()
+}
+
 watch(isFormValid, () => {
     emit('formValidation', isFormValid.value)
 })
-const pointsRules = [
+const initialPointsRules = [
     (value: number) => {
-        if (Number.isInteger(value)) return true
-
-        return 'please fill this field with a number'
+        if (gameStore.gameSettings.winAt < value * 3) return 'initial points should be lower'
+        if (!Number.isInteger(value))  return 'please fill this field with a number'
+        return true
+    }
+]
+const nOfParticipants = [
+    (value: number) => {
+        if (!Number.isInteger(value)) return 'please fill this field with a number'
+        if (value < 5) return "it should be > 4"
+        if (value > 35) return "it should be < 35"
+        return true
     }
 ]
 const requiedRule = [
     (value: (string | boolean)) => {
-
         if (typeof value === 'string' && value !== '') return true
         else if (typeof value === 'boolean') return true
 
@@ -148,6 +152,7 @@ const requiedRule = [
 const newButtonRules = [
     (value: number) => {
         if (gameStore.gameSettings.buttons.includes(value)) { newButtonValidation.value = 'duplicate'; return false }
+        if (value === 0) { newButtonValidation.value = "can't add 0"; return false }
         if (value > (gameStore.gameSettings.winAt / 2)) { newButtonValidation.value = 'large number'; return false }
         newButtonValidation.value = ''
         return true
