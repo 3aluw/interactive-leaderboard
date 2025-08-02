@@ -6,7 +6,6 @@ const soundSrcs = {
         "150781460144835 (1).mp3"
     ],
     "happy": [
-        "150791460144835.mp3",
         "162141460569192.mp3",
         "178801464188989.mp3",
         "179011464199145.mp3",
@@ -16,9 +15,9 @@ const soundSrcs = {
         "18860CartoonLaughDIGIJ04-41.mp3",
         "18877LaughSillyMaleClosPE130601.mp3",
         "18887ToyDIGIJ08-18.mp3",
-        "evil-laugh-89423",
-        "happy-huming-6202",
-        "happy-noisesmp3-14568",
+        "evil-laugh-89423.mp3",
+        "happy-huming-6202.mp3",
+        "happy-noisesmp3-14568.mp3",
         "Aliens-Monsters-01.mp3"
     ],
     "sad": [
