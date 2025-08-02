@@ -83,10 +83,6 @@ onMounted(() => {
     window.addEventListener('resize', onResize);
     manageMusic()
 })
-//stop music on leave
-onUnmounted(()=>{
-    gameStore.toggleMusic()
-})
 
 const manageMusic = () => {
     if (gameStore.gameSettings.music) {
@@ -108,7 +104,6 @@ watch(() => gameStore.avatarsToChange.length, () => {
 const scaleAvatar = (index: number) => {
     const applyClasses = ['scaled-avatar-one', 'scaled-avatar-two', 'scaled-avatar-three',]
     const selectedClass = applyClasses[Math.floor(Math.random() * 3)]
-    console.log(selectedClass)
     const avatarsList = document.querySelectorAll('.v-avatar');
     avatarsList[index]?.classList.add(selectedClass)
     setTimeout(() => avatarsList[index]?.classList.remove(selectedClass), 2000)
@@ -117,6 +112,7 @@ const scaleAvatar = (index: number) => {
 const isGameFinished = () => {
     if (gameStore.teams[0].points >= gameStore.gameSettings.winAt) {
         showLeaderboardDialog.value = true;
+        gameStore.toggleMusic()
         gameStore.reactionSoundPlayer('final')
     }
 }
