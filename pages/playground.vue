@@ -33,6 +33,19 @@ useHead({
     script: [{ hid: 'confetti', src: 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js', defer: true },
     ]
 })
+//direct teh user to home if no team is created yet
+definePageMeta({
+  middleware: [
+    async function (to, from) {
+      if (process.client) {
+        const gameStore = useGameStore()
+        if (gameStore.teams.length === 0) {
+          return await navigateTo('/')
+        }
+      }
+    }
+  ]
+})
 
 const container = ref<HTMLInputElement | null>(null);
 let playgroundWidth: Ref<number> = ref(300);
