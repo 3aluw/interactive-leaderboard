@@ -33,6 +33,19 @@ useHead({
     script: [{ hid: 'confetti', src: 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js', defer: true },
     ]
 })
+//direct teh user to home if no team is created yet
+definePageMeta({
+  middleware: [
+    async function (to, from) {
+      if (process.client) {
+        const gameStore = useGameStore()
+        if (gameStore.teams.length === 0) {
+          return await navigateTo('/')
+        }
+      }
+    }
+  ]
+})
 
 const container = ref<HTMLInputElement | null>(null);
 let playgroundWidth: Ref<number> = ref(300);
@@ -80,25 +93,17 @@ const widthsGenerator = () => {
 onMounted(() => {
     playgroundWidth.value = container.value?.getBoundingClientRect().width ?? 300;
     widthsGenerator()
-    window.addEventListener('resize', onResize)
+    window.addEventListener('resize', onResize);
+    manageMusic()
 })
 
-/*
-//a function to run musics in a row
-const playMusic = ()=> {
-    let soundGenerator = () => new Audio(soundsManager('music'));
-    let sound = soundGenerator()
-    // Play the audio
-    sound.play();
-    sound.addEventListener("ended", function () {
-        console.log(" has finished playing");
-
-        // Play the next sound
-        playMusic();
-    });
- 
+const manageMusic = () => {
+    if (gameStore.gameSettings.music) {
+        gameStore.toggleMusic()
+        gameStore.toggleMusic("music")
+    }
 }
-*/
+
 const onResize = () => {
     playgroundWidth.value = container.value?.getBoundingClientRect().width ?? 300;
     widthsGenerator()
@@ -112,7 +117,6 @@ watch(() => gameStore.avatarsToChange.length, () => {
 const scaleAvatar = (index: number) => {
     const applyClasses = ['scaled-avatar-one', 'scaled-avatar-two', 'scaled-avatar-three',]
     const selectedClass = applyClasses[Math.floor(Math.random() * 3)]
-    console.log(selectedClass)
     const avatarsList = document.querySelectorAll('.v-avatar');
     avatarsList[index]?.classList.add(selectedClass)
     setTimeout(() => avatarsList[index]?.classList.remove(selectedClass), 2000)
@@ -121,6 +125,7 @@ const scaleAvatar = (index: number) => {
 const isGameFinished = () => {
     if (gameStore.teams[0].points >= gameStore.gameSettings.winAt) {
         showLeaderboardDialog.value = true;
+        gameStore.toggleMusic()
         gameStore.reactionSoundPlayer('final')
     }
 }
@@ -191,6 +196,6 @@ const retryGame = () => {
 }
 
 .scaled-avatar-three {
-    transform: scale(1.5) rotate(180deg);
+    transform: scale(1.5) rotate(45deg);
 }
 </style>

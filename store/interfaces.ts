@@ -7,6 +7,7 @@ interface IGameSettings {
     buttons : number[],
     sounds?: boolean,
     avatars?: boolean,
+    music?:boolean,
   }
 interface ITeam {
   name : string,
