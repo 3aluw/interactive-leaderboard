@@ -1,11 +1,15 @@
 <template>
     <div class="global-container w-full">
         <nav class="flex px-4 py-6 justify-around">
-            <NuxtLink><v-btn variant="plain">How it works</v-btn></NuxtLink>
+            <NuxtLink><v-btn variant="plain" @click="showHowItWorks = true"  >How it works</v-btn></NuxtLink>
             <NuxtLink> <v-btn variant="plain" @click="dialog = true">start now</v-btn></NuxtLink>
             <NuxtLink to="https://github.com/3aluw/interactive-leaderboard"><v-btn variant="plain">github</v-btn>
             </NuxtLink>
         </nav>
+        <!-- show how it works dialog -->
+         <v-dialog class="pb-20" v-model="showHowItWorks" width="700px" >
+        <HowItWorks></HowItWorks>
+         </v-dialog>
         <main class="flex gap-12 align-center justify-center max-[600px]:!gap-0">
             <div class="main-left max-[600px]:!hidden">
                 <img src="/boys.png" alt="a picture of happy kids">
@@ -63,6 +67,7 @@ const gameStore = useGameStore()
 const dialog: Ref<boolean> = ref(false)
 const isGameSettingFormValid = ref()
 const isTeamsConfigFormValid = ref()
+const showHowItWorks = ref(false)
 //form steps
 const step: Ref<number> = ref(1)
 
