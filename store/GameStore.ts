@@ -11,8 +11,8 @@ export const useGameStore = defineStore("GameStore", () => {
     {
       gameType: 'real-time',
       initialPoints: 0,
-      participantsNumber: 3,
-      winAt: 10,
+      participantsNumber: 10,
+      winAt: 30,
       buttons: [2, 5],
       avatars: true,
       sounds: true,
@@ -70,7 +70,6 @@ export const useGameStore = defineStore("GameStore", () => {
   }
 
   const changeAvatar = (index: number, face: 'normalFaces' | 'happyFaces' | 'sadFaces' = "normalFaces", isSameHead: boolean) => {
-
     if (!isSameHead) {
       const [svg, avatarObj] = avatarGenerator('', face)
       avatars.value[index] = avatarObj;
@@ -97,7 +96,7 @@ export const useGameStore = defineStore("GameStore", () => {
     team.history.push(team.points)
     type === '+' ? team.points += pts : team.points -= pts;
 
-    //check if the reranking is needed
+    //check if the re-ranking is needed
     if (team.points > upTeam?.points || team.points < downTeam?.points) {
       changeRank();
       setTimeout(() => { manageAvatarsChange(index, team.id) }, 500)
@@ -111,7 +110,7 @@ export const useGameStore = defineStore("GameStore", () => {
 
   //array to be watched to scale the avatars up
   const avatarsToChange: Ref<number[]> = ref([])
-  const clearAvatarsToChangeArray = () => { avatarsToChange.value = []; console.log(avatarsToChange.value) }
+  const clearAvatarsToChangeArray = () => { avatarsToChange.value = []; }
 
 
   const manageAvatarsChange = (previousRank: number, teamId: number) => {
